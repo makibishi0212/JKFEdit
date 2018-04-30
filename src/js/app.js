@@ -1,8 +1,11 @@
-import '../scss/style.scss';
-import add from './modules/add';
+import "../scss/style.scss";
+import add from "./modules/add";
+import m from "mithril";
 
-const number1 = 400;
-const number2 = 600;
-const total = add(number1, number2);
+import Hello from "./components/hello";
+import About from "./components/about";
 
-console.log(total);
+m.route(document.querySelector(".mithril-body"), "/", {
+  "/": Hello,
+  "/about": About
+});
