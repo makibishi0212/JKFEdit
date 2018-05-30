@@ -31,3 +31,8 @@ npm run test
 ```
 npm run format
 ```
+
+### build
+```
+npm run build
+```
