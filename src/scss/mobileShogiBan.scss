@@ -1,0 +1,39 @@
+.c-kifuMobile_shogiBan {
+    position: relative;
+}
+
+.c-kifuMobile_shogiBan_koma {
+    position: absolute;
+    z-index: 110;
+}
+
+.c-kifuMobile_koma_num {
+    position: absolute;
+    color: #ff4898;
+    font-size: 18px;
+    font-weight: bold;
+    right: 2px;
+    top: -2px;
+    text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000;
+    z-index: 125;
+}
+
+.c-kifuMobile_koma_img {
+    vertical-align: bottom;
+}
+
+.c-kifuMobile_koma_row {
+    display: flex;
+}
+
+.c-kifuMobile_koma_base {
+    position: relative;
+    top: 1px;
+    right: -1px;
+}
+
+.c-kifuMobile_piece {
+    flex: 1;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,127 @@
+.c-kifu_info {
+    transition: 0.3s;
+}
+
+.message.is-close {
+    opacity: 0;
+}
+
+article.tile {
+    padding: 0.75rem 0.75rem 0.5rem 0.5rem;
+    flex-basis: auto;
+}
+
+article.tile h4.title {
+    margin-bottom: 0.5rem;
+    color: $theme-color;
+}
+
+article .columns {
+    padding: 0.25rem;
+}
+
+article .column {
+    padding: 0.5rem;
+}
+
+.c-kifu_box_post {
+    font-size: 12px;
+}
+
+.c-kifu_box {
+    border: none;
+    border-radius: 4px;
+    min-width: 222px;
+    max-height: 160px;
+    background-color: #fff;
+}
+
+.c-kifu_box .c-kifu_box_header {
+    padding: 0.25em;
+}
+
+.c-kifu_box_title {
+    padding: 0;
+}
+
+.c-kifu_box_type {
+    font-size: 12px;
+}
+
+.c-kifu_box_type.is-kifu {
+    color: #a72e4f;
+}
+
+.c-kifu_box_type.is-joseki {
+    color: #4f2ea7;
+}
+
+.c-kifu_box_description {
+    font-size: 13px;
+    padding: 0.15em;
+    height: 60px;
+}
+
+.c-kifu_box_description .content {
+    margin-bottom: 0.25em;
+    line-height: 1.5;
+    height: 4.5em;
+    position: relative;
+    overflow: hidden;
+}
+
+.c-kifu_box_tags {
+    padding-left: 0.15em;
+}
+
+.c-kifu_box_tags .tag {
+    margin-right: 0.15em;
+}
+
+.c-kifu_box_footer {
+    display: flex;
+    align-items: stretch;
+    -webkit-box-align: stretch;
+}
+
+.c-kifu_box_star {
+    font-size: 12px;
+}
+
+.c-kifu_box_contributor {
+    padding: 0.15em;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+.c-adArea {
+    width: 728px;
+    height: 90px;
+    background-color: #c7def3;
+}
+
+.c-config_group {
+    margin-top: 1.75rem;
+    padding-left: 0.5rem;
+}
+
+.c-config_group .title {
+    margin-bottom: 0.5rem;
+}
+
+.columns:not(:last-child) {
+    margin-bottom: 0.25em;
+}
+
+.section .title.is-compact {
+    font-size: 2.25rem;
+}
+
+.c-kifu_box_title {
+    font-size: 0.9rem;
+    width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline;
+    text-overflow: ellipsis;
+}

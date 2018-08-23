@@ -1,0 +1,26 @@
+.c-shogiBan_menu_label {
+    color: #fff;
+    font-size: 12px;
+}
+
+.c-shogiBan_menu_label.is-main {
+    font-size: 16px;
+}
+
+.c-shogiBan_menu_expandOpton {
+    cursor: pointer;
+}
+
+.c-shogiBan_menu_option .fa {
+    transition: all 0.2s;
+}
+
+.c-shogiBan_menu_option .fa-chevron-right.is-open {
+    transform: rotate(90deg);
+}
+
+.c-shogiBan_menu_option textarea {
+    height: 130px;
+    resize: none;
+    font-size: 12px;
+}

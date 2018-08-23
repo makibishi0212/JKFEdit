@@ -1,0 +1,119 @@
+// 運用上の注意: 使用する画像をbuild/配下にも置く
+@import "mixins";
+@import "vars";
+@import 'shogiBan';
+@import 'toolbar';
+@import 'kifu';
+@import 'kifuHeader';
+@import 'create';
+@import 'header';
+@import 'footer';
+@import 'top';
+@import 'kifuList';
+@import 'tags';
+@import 'kifuMobile';
+@import 'mobileShogiBan';
+
+// 棋譜表示コンポーネントのコンテナ
+.c-kifuPlayer {
+    margin: 20px;
+    width: 756px;
+    height: 532px;
+    position: relative;
+    display: flex;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.12);
+
+    @include border(#000);
+}
+
+.c-kifuPlayer:focus {
+    outline: none;
+}
+
+//棋譜表示コンポーネントのインナークラス
+.c-kifuPlayer_inner {
+    height: 530px;
+    width: 604px;
+}
+
+//ツールバー、コメント欄用のコンテナクラス
+.c-kifuPlayer_inner2 {
+    display: flex;
+}
+
+// 棋譜盤面、ツールバーを表示する領域
+.c-kifuPlayer_main {
+    position: absolute;
+    z-index: 30;
+}
+
+// 棋譜情報ウインドウのコンテナ
+.c-kifuPlayer_info {
+    display: none;
+    width: 604px;
+    height: 454px;
+    padding: 12px;
+    background-color: black;
+    position: absolute;
+    z-index: 40;
+}
+
+.c-kifuPlayer_info.is-active {
+    display: block;
+}
+
+.c-kifuPlayer_info_title {
+    padding: 0.75rem;
+}
+
+.c-kifuPlayer_info_close {
+    margin-left: auto;
+    color: #fff;
+    padding: 0.75rem;
+    cursor: pointer;
+}
+
+// モバイル版棋譜表示コンポーネントのコンテナ
+.c-kifuPlayerMobile {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+// メインコンテンツの高さを常に100%にする
+section.section {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    background-color: ghostwhite;
+}
+
+.buttons:not(:last-child) {
+    margin-bottom: 0;
+}
+
+html {
+    height: 100%;
+    background-color: ghostwhite;
+}
+
+body {
+    height: 100%;
+    background-color: ghostwhite;
+}
+
+.section-mobile {
+    padding: 1.5rem 0;
+    min-height: 100%;
+    background-color: ghostwhite;
+    width: 100%;
+}
+
+.button {
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.container .tile {
+    flex-basis: auto;
+}

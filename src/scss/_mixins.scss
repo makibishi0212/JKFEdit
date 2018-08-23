@@ -1,0 +1,9 @@
+$border-radius: 2rem !default;
+
+@mixin border($color: #ffffff) {
+    border: groove 1px $color;
+}
+
+@mixin picture($url) {
+    background-image: url($url);
+}

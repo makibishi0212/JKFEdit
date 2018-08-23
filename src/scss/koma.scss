@@ -1,0 +1,197 @@
+@import "mixins";
+
+.c-koma_piece {
+    flex: 1;
+    width: $koma-width;
+    height: $koma-height;
+    background-size: cover;
+}
+
+.c-koma_piece.is-ready {
+    opacity: 0.5;
+}
+
+.c-koma_prop_fu {
+    @include picture('../images/koma/Sfu.svg');
+}
+
+.c-koma_prop_to {
+    @include picture('../images/koma/Sto.svg');
+}
+
+.c-koma_prop_kyo {
+    @include picture('../images/koma/Skyo.svg');
+}
+
+.c-koma_prop_nkyo {
+    @include picture('../images/koma/Snkyo.svg');
+}
+
+.c-koma_prop_kei {
+    @include picture('../images/koma/Skei.svg');
+}
+
+.c-koma_prop_nkei {
+    @include picture('../images/koma/Snkei.svg');
+}
+
+.c-koma_prop_gin {
+    @include picture('../images/koma/Sgin.svg');
+}
+
+.c-koma_prop_ngin {
+    @include picture('../images/koma/Sngin.svg');
+}
+
+.c-koma_prop_kin {
+    @include picture('../images/koma/Skin.svg');
+}
+
+.c-koma_prop_hisha {
+    @include picture('../images/koma/Shi.svg');
+}
+
+.c-koma_prop_ryu {
+    @include picture('../images/koma/Sryu.svg');
+}
+
+.c-koma_prop_kaku {
+    @include picture('../images/koma/Skaku.svg');
+}
+
+.c-koma_prop_uma {
+    @include picture('../images/koma/Suma.svg');
+}
+
+.c-koma_prop_ou {
+    @include picture('../images/koma/Sou.svg');
+}
+
+
+.c-koma_oppo_fu {
+    @include picture('../images/koma/Gfu.svg');
+}
+
+.c-koma_oppo_to {
+    @include picture('../images/koma/Gto.svg');
+}
+
+.c-koma_oppo_kyo {
+    @include picture('../images/koma/Gkyo.svg');
+}
+
+.c-koma_oppo_nkyo {
+    @include picture('../images/koma/Gnkyo.svg');
+}
+
+.c-koma_oppo_kei {
+    @include picture('../images/koma/Gkei.svg');
+}
+
+.c-koma_oppo_nkei {
+    @include picture('../images/koma/Gnkei.svg');
+}
+
+.c-koma_oppo_gin {
+    @include picture('../images/koma/Ggin.svg');
+}
+
+.c-koma_oppo_ngin {
+    @include picture('../images/koma/Gngin.svg');
+}
+
+.c-koma_oppo_kin {
+    @include picture('../images/koma/Gkin.svg');
+}
+
+.c-koma_oppo_hisha {
+    @include picture('../images/koma/Ghi.svg');
+}
+
+.c-koma_oppo_ryu {
+    @include picture('../images/koma/Gryu.svg');
+}
+
+.c-koma_oppo_kaku {
+    @include picture('../images/koma/Gkaku.svg');
+}
+
+.c-koma_oppo_uma {
+    @include picture('../images/koma/Guma.svg');
+}
+
+.c-koma_oppo_ou {
+    @include picture('../images/koma/Gou.svg');
+}
+
+.c-koma_row {
+    display: flex;
+}
+
+.c-koma_piece_base {
+    right: -1px;
+    top: 1px;
+    position: relative;
+}
+
+.c-koma_piece_base.is-red {
+    @include picture('../images/focus/focus_trpt_r.png');
+}
+
+.c-koma_piece_base.is-green {
+    @include picture('../images/focus/focus_trpt_g.png');
+}
+
+.c-koma_piece_base.is-blue {
+    @include picture('../images/focus/focus_trpt_b.png');
+}
+
+.c-koma_piece_base.is-yellow {
+    @include picture('../images/focus/focus_trpt_y.png');
+}
+
+.c-koma_piece_num {
+    position: absolute;
+    color: #ff4898;
+    font-size: 18px;
+    font-weight: bold;
+    right: 2px;
+    top: -2px;
+    text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000;
+    z-index: 125;
+}
+
+.c-koma_menu_container {
+    position: absolute;
+    right: -1px;
+    top: 1px;
+    width: $koma-width;
+    height: $koma-height;
+    border: groove 1px;
+    //background-color: rgba(1, 1, 1, 0.2);
+}
+
+.c-koma_half_button {
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    vertical-align: middle;
+    height: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.c-koma_half_button.is-nari {
+    color: #fff;
+    background-color: rgba(255, 56, 96, 0.7);
+}
+
+.c-koma_half_button.is-funari {
+    color: #555;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.c-koma_half_button.is-change {
+    color: #fff;
+    background-color: rgba(96, 56, 255, 0.7);
+}

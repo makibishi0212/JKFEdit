@@ -1,0 +1,31 @@
+.c-kifu_tagContainer {
+    margin: 20px;
+}
+
+.c-kifu_tagContainer .tag {
+    cursor: pointer;
+    background-color: $subTheme-color;
+    color: #fff;
+}
+
+.c-kifu_tagContainer .tag.is-delete:hover {
+    background-color: $subTheme-color;
+    color: #fff;
+}
+
+.c-kifu_messageContainer {
+    margin-left: 20px;
+}
+
+.c_kifu_tagInput {
+    height: 2em;
+    font-size: 0.75rem;
+    width: 120px;
+}
+
+.c_kifu_tagInputButton {
+    height: 2em;
+    font-size: 0.75rem;
+    background-color: $subTheme-color;
+    color: #fff;
+}

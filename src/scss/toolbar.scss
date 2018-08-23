@@ -1,0 +1,23 @@
+.c-tool_comment {
+    background-color: #fff;
+    color: #000;
+    height: 76px;
+    width: 456px;
+    overflow-y: scroll;
+    font-size: 15px;
+    flex: 1;
+    -ms-overflow-style: none;
+}
+
+.c-tool_button {
+    background-color: #ddd;
+    height: 76px;
+    width: 148px;
+    border-left: groove #808080 1px;
+    border-right: groove #808080 1px;
+}
+
+.buttons .button.is-compact {
+    margin-right: 0;
+    margin-bottom: 0;
+}

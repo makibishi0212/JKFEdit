@@ -1,0 +1,158 @@
+.c-kifu_container {
+    width: 150px;
+    height: 530px;
+    flex: 1;
+}
+
+.c-kifu_title {
+    font-size: 12px;
+    color: #fff;
+    background-color: #141414;
+    height: 18px;
+    padding-left: 8px;
+}
+
+.c-kifu_list {
+    color: #141414;
+    background-color: #e4e2f0;
+    height: 512px;
+    width: 150px;
+    overflow-y: auto;
+    position: absolute;
+    -ms-overflow-style: none;
+}
+
+.c-kifu_list::-webkit-scrollbar {
+    display: none;
+}
+
+.c-kifu_row {
+    font-size: 15px;
+    border-bottom: groove rgba(0, 0, 0, 0.2) 1px;
+    display: flex;
+    height: 24px;
+    align-items: center;
+    color: #202686;
+}
+
+.c-kifu_row.is-active {
+    color: #fff;
+    background-color: #92c2ff;
+}
+
+.c-kifu_move_info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.c-kifu_number {
+    text-align: right;
+    font-size: 12px;
+    width: 30px;
+    padding-right: 4px;
+}
+
+.c-kifu_move {
+    flex: 1;
+}
+
+.c-kifu_move.is-small {
+    font-size: 12px;
+}
+
+.c-kifu_move_input {
+    font-size: 10px;
+}
+
+.c-kifu_notation {
+    margin-left: auto;
+    padding: 8px;
+    font-size: 10px;
+}
+
+.c-kifu_notation_branch {
+    cursor: pointer;
+}
+
+.c-kifu_notation_close {
+    cursor: pointer;
+}
+
+.c-kifu_fork {
+    height: 512px;
+    width: 150px;
+    position: absolute;
+    z-index: 220;
+    display: none;
+}
+
+.c-kifu_fork.is-active {
+    display: block;
+}
+
+.c-kifu_fork .c-kifu_row {
+    background-color: #ff92c2;
+}
+
+.c-kifu_fork .c-kifu_row.is-stream {
+    background-color: #ff7292;
+}
+
+.c-kifu_fork .c-kifu_addRow {
+    color: #ff92c2;
+    background-color: #5056b6;
+}
+
+.c-kifu_addRow {
+    cursor: pointer;
+}
+
+.c-kifu_forkRow {
+    cursor: pointer;
+}
+
+.c-kifu_select {
+    font-size: 15px;
+    border-bottom: groove rgba(0, 0, 0, 0.3) 1px;
+    display: flex;
+    height: 24px;
+    align-items: center;
+    color: #fff;
+}
+
+.c-kifu_select_close {
+    cursor: pointer;
+}
+
+.c-kifu_blackOut {
+    background-color: #000;
+    opacity: 0.4;
+    height: 512px;
+    width: 150px;
+    position: absolute;
+    display: none;
+}
+
+.c-kifu_blackOut.is-active {
+    display: block;
+}
+
+.c-kifu_loading {
+    height: 532px;
+    margin: 20px;
+}
+
+.c-kifu_share {
+    margin: 20px;
+}
+
+.c-kifu_share .button {
+    cursor: pointer;
+    background-color: $subTheme-color;
+    color: #fff;
+}
+
+.c-kifu_disqus {
+    margin: 20px;
+}

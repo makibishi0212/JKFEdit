@@ -1,0 +1,91 @@
+@import "mixins";
+@import "koma";
+
+.c-kifuMobile_hands {
+    height: 48px;
+
+    @include picture('../images/ban/ban_kaya_a.jpg');
+}
+
+.c-kifuMobile_inner2 {
+    display: flex;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 12px;
+}
+
+.c-kifuMobile_toolbar {
+    flex: 1;
+    // background-color: #868686;
+}
+
+.c-kifuMobile_comment {
+    flex: 1;
+    max-height: 80px;
+    padding-right: 0.5rem;
+    overflow-y: scroll;
+}
+
+.c-kifuMobile_shogiBan_container {
+    width: 100%;
+}
+
+.c-kifuMobile_main {
+    width: 100%;
+}
+
+.c-kifuMobile_info {
+    display: none;
+    position: absolute;
+    background-color: black;
+    z-index: 130;
+    width: 100%;
+}
+
+.c-kifuMobile_info_header {
+    display: flex;
+}
+
+.c-kifuMobile_info_content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.c-kifuMobile_columns {
+    display: flex;
+}
+
+.c-kifuMobile_info.is-active {
+    display: block;
+}
+
+.c-kifuMobile_shogiBan {
+    // width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.c-kifuMobile_img {
+    height: auto;
+    vertical-align: bottom;
+}
+
+.c-kifuMobile_shogiBan_grid {
+    position: absolute;
+    z-index: 100;
+    // width: 90%;
+}
+
+.c-kifuMobile_koma_base.is-red {
+    @include picture('../images/focus/focus_trpt_r.png');
+}
+
+.c-kifuMobile_hands {
+    display: flex;
+}
+
+.c-kifu_fork.is-mobile {
+    width: 100%;
+    position: relative;
+    display: block;
+}

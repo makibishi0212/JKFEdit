@@ -1,0 +1,18 @@
+.c-kifu_editButton {
+    cursor: pointer;
+}
+
+.c-kifu_pagination span {
+    cursor: pointer;
+}
+
+.c-kifu_pagination span i.is-disabled::before {
+    color: #bbb;
+}
+
+.section .container .table td.c-kifu_table_title {
+    max-width: 440px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
