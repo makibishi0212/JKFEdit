@@ -16,6 +16,10 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@taoqf/javascript-state-machine@https://github.com/taoqf/javascript-state-machine#master":
+  version "3.1.0"
+  resolved "https://github.com/taoqf/javascript-state-machine#00741dd557de35f5e8b2df4640d7f81752a07fa9"
+
 "@types/mithril@^1.1.12":
   version "1.1.12"
   resolved "https://registry.yarnpkg.com/@types/mithril/-/mithril-1.1.12.tgz#8ef6f569eb91af4252bddc82ae007503f7f440d4"
@@ -1910,10 +1914,6 @@ istanbul-reports@^1.4.0:
   resolved "https://registry.yarnpkg.com/istanbul-reports/-/istanbul-reports-1.4.0.tgz#3d7b44b912ecbe7652a603662b962120739646a1"
   dependencies:
     handlebars "^4.0.3"
-
-javascript-state-machine@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/javascript-state-machine/-/javascript-state-machine-3.1.0.tgz#06eeb2136a6a19ae1b56105c25caec283dd5cd14"
 
 jest-changed-files@^22.4.3:
   version "22.4.3"

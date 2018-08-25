@@ -1,3 +1,5 @@
+import { KOMAOCHI } from "./const";
+
 export default class Util {
     public static komaClassName(kind: string, color: number, reverse: boolean = false):string {
         const PLAYER = {
@@ -52,6 +54,38 @@ export default class Util {
                 break
         }
         return (komaName) ? 'c-koma' + '_' + ownerName + '_' + komaName : ''
+    }
+
+    public static komaochiName(komaochiType: number) {
+        let komaochiString = ''
+        switch(komaochiType) {
+            case KOMAOCHI.KYO:
+                komaochiString = 'KY'
+                break
+            case KOMAOCHI.KAKU:
+                komaochiString = 'KA'
+                break
+            case KOMAOCHI.HISHA:
+                komaochiString = 'HI'
+                break
+            case KOMAOCHI.HIKYO:
+                komaochiString = 'HIKY'
+                break
+            case KOMAOCHI.NI:
+                komaochiString = '2'
+                break
+            case KOMAOCHI.YON:
+                komaochiString = '4'
+                break
+            case KOMAOCHI.ROKU:
+                komaochiString = '6'
+                break
+            case KOMAOCHI.HACHI:
+                komaochiString = '8'
+                break
+        }
+
+        return komaochiString
     }
 
     public static getAttr(vnode: Object, key: string):any {

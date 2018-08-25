@@ -1,8 +1,35 @@
 export const STATE = {
-    TOP: 0,
-    NEWKIFU: 1,
-    LOADKIFU: 2,
-    EDITKIFUINFO: 3,
-    EDITBOARD: 4,
-    EDITMOVE: 5
+    TOP: 'TOP',
+    NEWKIFU: 'NEWKIFU',
+    LOADKIFU: 'LOADKIFU',
+    EDITBOARD: 'EDITBOARD',
+    EDITINFO: 'EDITINFO',
+    EDITMOVE: 'EDITMOVE'
+}
+
+export const PLAYER = {
+    SENTE: 0,
+    GOTE: 0
+}
+
+export const BAN = {
+    HIRATE   : 0,
+    KOMAOCHI : 1,
+    CUSTOM   : 2
+}
+
+export const KOMAOCHI = {
+    KYO    : 0,
+    KAKU   : 1,
+    HISHA  : 2,
+    HIKYO  : 3,
+    NI     : 4,
+    YON    : 5,
+    ROKU   : 6,
+    HACHI  : 7,
+}
+
+export const KIFUTYPE = {
+    KIFU  : 0,
+    JOSEKI: 1
 }

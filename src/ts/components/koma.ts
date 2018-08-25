@@ -5,13 +5,9 @@ import m from 'mithril'
 import c from 'classNames'
 import AppData from '../appdata'
 import Util from '../util';
+import SingleComponentBasic from '../singleComponentBasic';
 
-export default class Koma implements ComponentBasic {
-    private appData: AppData
-    
-    constructor(appData: AppData) {
-        this.appData = appData
-    }
+export default class Koma extends SingleComponentBasic {
 
     public view(vnode) {
         let kind = Util.getAttr(vnode, 'kind') ? Util.getAttr(vnode, 'kind'): null

@@ -1,16 +1,10 @@
 // 指し手情報リストのコンポーネント
 
-import ComponentBasic from '../componentBasic'
 import m from 'mithril'
 import c from 'classNames'
-import AppData from '../appdata'
+import SingleComponentBasic from '../singleComponentBasic'
 
-export default class MoveList implements ComponentBasic {
-    private appData: AppData
-    
-    constructor(appData: AppData) {
-        this.appData = appData
-    }
+export default class MoveList extends SingleComponentBasic {
 
     public view() {
         return [

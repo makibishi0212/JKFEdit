@@ -8,18 +8,18 @@ import ToolBar from './toolBar';
 import EditorMenu from './editorMenu';
 
 export default class JKFEdit implements ComponentBasic {
-    private appData: AppData = new AppData()
-    
+    private appData: AppData
     private shogiBan: ShogiBan
     private moveList: MoveList
     private toolBar: ToolBar
     private editorMenu: EditorMenu
 
-    constructor() {
-        this.shogiBan = new ShogiBan(this.appData)
-        this.moveList = new MoveList(this.appData)
-        this.toolBar = new ToolBar(this.appData)
-        this.editorMenu = new EditorMenu(this.appData)
+    public oninit() {
+        this.appData = new AppData()
+        this.shogiBan = ShogiBan.getInstance(ShogiBan, this.appData)
+        this.moveList = MoveList.getInstance(MoveList, this.appData)
+        this.toolBar = ToolBar.getInstance(ToolBar, this.appData)
+        this.editorMenu = EditorMenu.getInstance(EditorMenu, this.appData)
     }
 
     public view() {
