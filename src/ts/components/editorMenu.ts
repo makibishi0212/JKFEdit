@@ -2,7 +2,6 @@
 
 import m from 'mithril'
 import c from 'classNames'
-import AppData from '../appdata'
 import TopMenu from './menu/topMenu';
 import { STATE } from '../const';
 import NewKifuMenu from './menu/newKifuMenu';

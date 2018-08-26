@@ -4,13 +4,9 @@ import ComponentBasic from '../componentBasic'
 import m from 'mithril'
 import c from 'classNames'
 import AppData from '../appdata'
+import SingleComponentBasic from '../singleComponentBasic';
 
-export default class KifuInfo implements ComponentBasic {
-    private appData: AppData
-
-    constructor(appData: AppData) {
-        this.appData = appData
-    }
+export default class KifuInfo extends SingleComponentBasic {
 
     public view() {
         return [

@@ -7,6 +7,19 @@ export const STATE = {
     EDITMOVE: 'EDITMOVE'
 }
 
+export const EDITSTATE = {
+    INPUTFROM: 'INPUTFROM',
+    INPUTTO: 'INPUTTO',
+    INPUTNARI: 'INPUTNARI',
+    NOINPUT: 'NOINPUT'
+}
+
+export const KOMATYPE = {
+    NORMAL: 'NORMAL',
+    FROM: 'FROM',
+    TO: 'TO'
+}
+
 export const PLAYER = {
     SENTE: 0,
     GOTE: 0

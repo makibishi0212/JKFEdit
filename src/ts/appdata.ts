@@ -1,6 +1,6 @@
 import JkfEditor from 'jkfeditor'
 import StateMachine from '@taoqf/javascript-state-machine'
-import { STATE, BAN, KOMAOCHI } from "./const"
+import { STATE, BAN, KOMAOCHI, EDITSTATE } from "./const"
 import Util from './util';
 
 export default class AppData {
@@ -43,6 +43,38 @@ export default class AppData {
         ]
     })
 
+    // 棋譜編集モード時のサブステートを定義
+    private editStateMachine = new StateMachine({
+        init: EDITSTATE.INPUTFROM,
+        transitions: [
+            {
+                name: 'activate',
+                from: EDITSTATE.NOINPUT,
+                to: EDITSTATE.INPUTFROM
+            },
+            {
+                name: 'inputTo',
+                from: EDITSTATE.INPUTFROM,
+                to: EDITSTATE.INPUTTO
+            },
+            {
+                name: 'inputNari',
+                from: EDITSTATE.INPUTTO,
+                to: EDITSTATE.INPUTNARI
+            },
+            {
+                name: 'inputFrom',
+                from: EDITSTATE.INPUTTO,
+                to: EDITSTATE.INPUTFROM
+            },
+            {
+                name: 'reset',
+                from: [EDITSTATE.INPUTFROM, EDITSTATE.INPUTTO, EDITSTATE.INPUTNARI],
+                to: EDITSTATE.NOINPUT
+            }
+        ]
+    })
+
     // 反転状態で表示するかどうか
     private _reverse: boolean = false
 
@@ -70,16 +102,13 @@ export default class AppData {
     private _createHands: Array<Object>
 
     // 新規作成時の盤面プリセット
-    private _initBoardPreset: string
+    private initBoardPreset: string
 
     // 棋譜か定跡か
     private _kifuType: number
 
     // 棋譜のヘッダー情報
-    private _headerInfo: Object = {}
-
-    constructor() {
-    }
+    private _headerInfo: { [index: string]: string; } = {}
 
     public switch_NEWKIFU() {
         this.stateMachine['newKifu']()
@@ -88,10 +117,10 @@ export default class AppData {
     public switch_EDITINFO(kifuTitle: string, boardType: number, komaochiType: number, kifuType: number) {
         switch(boardType) {
             case BAN.HIRATE:
-                this._initBoardPreset = null
+                this.initBoardPreset = null
                 break
             case BAN.KOMAOCHI:
-                this._initBoardPreset = Util.komaochiName(komaochiType)
+                this.initBoardPreset = Util.komaochiName(komaochiType)
                 break
             case BAN.CUSTOM:
                 break
@@ -101,13 +130,37 @@ export default class AppData {
         this.stateMachine['editInfo']()
     }
 
-    public switch_EDITMOVE() {
+    public switch_EDITMOVE(detail: string, propName: string = null, oppoName: string = null, place: string = null) {
+        if(detail) this._headerInfo['detail'] = detail
+        if(propName) this._headerInfo['proponent_name'] = propName
+        if(oppoName) this._headerInfo['opponent_name'] = oppoName
+        if(place) this._headerInfo['place'] = place
+
+        const jkfObj = {
+            header: this._headerInfo, 
+            initial: {
+                preset: this.initBoardPreset
+            }, 
+            moves: [{}]
+        }
+        this.jkfEditor.load(jkfObj)
         this.stateMachine['editMove']()
+        console.log(this.editState)
     }
 
-    public switch_EDITKIFU() {
-        // TODO: ここでこれまでの情報をjkfEditorに再ロードする
-        this.stateMachine['editKifu']()
+    public edit_inputFrom(fromX: number, fromY: number) {
+        if(this.editState === EDITSTATE.INPUTFROM) {
+            this._fromX = fromX
+            this._fromY = fromY
+        }else {
+            console.log('INPUTFROM状態以外ではFROM座標の入力はできません。')
+        }
+    }
+
+    public edit_inputTo(fromX: number, fromY: number) {
+        if(this.editState === EDITSTATE.INPUTTO) {
+
+        }
     }
 
     public get jkfEditor() {
@@ -120,5 +173,17 @@ export default class AppData {
         }else {
             return 'ERROR'
         }
+    }
+
+    public get editState() {
+        if(typeof this.editStateMachine.state === 'string') {
+            return this.editStateMachine.state
+        }else {
+            return 'ERROR'
+        }
+    }
+
+    public get title() {
+        return (this._headerInfo['title']) ? this._headerInfo['title'] : ''
     }
 }

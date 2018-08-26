@@ -2,7 +2,6 @@
 
 import m from 'mithril'
 import c from 'classNames'
-import AppData from '../../appdata'
 import SingleComponentBasic from '../../singleComponentBasic';
 
 export default class KifuInfoMenu extends SingleComponentBasic {
@@ -113,7 +112,7 @@ export default class KifuInfoMenu extends SingleComponentBasic {
                             disabled: (this.detail) ? false : true,
                             onclick: () => {
                                 // 指し手入力ステートへ
-                                this.appData.switch_EDITMOVE()
+                                this.appData.switch_EDITMOVE(this.detail, this.proponentName, this.opponentName, this.place)
                             }
                         }, '棋譜編集開始')
                     ])
