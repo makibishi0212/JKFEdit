@@ -4,8 +4,8 @@ import c from 'classNames'
 import AppData from '../appdata'
 import ShogiBan from './shogiBan'
 import MoveList from './moveList'
-import ToolBar from './toolBar';
-import EditorMenu from './editorMenu';
+import ToolBar from './toolBar'
+import EditorMenu from './editorMenu'
 
 export default class JKFEdit implements ComponentBasic {
     private appData: AppData

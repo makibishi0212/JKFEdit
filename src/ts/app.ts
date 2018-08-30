@@ -15,3 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
     "/": jkfedit
   })
 })
+
+//TODO: forcePromoteをappdataで管理させる？

@@ -4,7 +4,8 @@ export const STATE = {
     LOADKIFU: 'LOADKIFU',
     EDITBOARD: 'EDITBOARD',
     EDITINFO: 'EDITINFO',
-    EDITMOVE: 'EDITMOVE'
+    EDITMOVE: 'EDITMOVE',
+    VIEW: 'VIEW'
 }
 
 export const EDITSTATE = {
@@ -22,7 +23,7 @@ export const KOMATYPE = {
 
 export const PLAYER = {
     SENTE: 0,
-    GOTE: 0
+    GOTE: 1
 }
 
 export const BAN = {
