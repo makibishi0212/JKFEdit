@@ -9,16 +9,16 @@ import { KOMATYPE } from '../const'
 export default class Koma extends SingleComponentBasic {
 
     public view(vnode) {
-        const kind = Util.getAttr(vnode, 'kind') ? Util.getAttr(vnode, 'kind'): null
+        const kind = Util.getAttr(vnode, 'kind')
         const color = Util.getAttr(vnode, 'color') ? Util.getAttr(vnode, 'color') : 0
         const komaNum = Util.getAttr(vnode, 'komaNum') ? Util.getAttr(vnode, 'komaNum'): 1
         const dispType = Util.getAttr(vnode, 'dispType') ? Util.getAttr(vnode, 'dispType'): KOMATYPE.NORMAL
 
-        const posX = Util.getAttr(vnode, 'posX') ? Util.getAttr(vnode, 'posX'): null
-        const posY = Util.getAttr(vnode, 'posY') ? Util.getAttr(vnode, 'posY'): null
+        const posX = Util.getAttr(vnode, 'posX')
+        const posY = Util.getAttr(vnode, 'posY')
 
-        const forcePromote = Util.getAttr(vnode, 'forcePromote') ? Util.getAttr(vnode, 'forcePromote'): null
-        const selectPromote = Util.getAttr(vnode, 'selectPromote') ? Util.getAttr(vnode, 'selectPromote'): null
+        const forcePromote = Util.getAttr(vnode, 'forcePromote')
+        const selectPromote = Util.getAttr(vnode, 'selectPromote')
 
         let komaProp = {}
 

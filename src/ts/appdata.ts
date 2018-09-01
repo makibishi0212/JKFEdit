@@ -62,7 +62,7 @@ export default class AppData {
             },
             {
                 name: 'inputFrom',
-                from: [EDITSTATE.NOINPUT, EDITSTATE.INPUTTO, EDITSTATE.INPUTNARI],
+                from: [EDITSTATE.NOINPUT, EDITSTATE.INPUTFROM, EDITSTATE.INPUTTO, EDITSTATE.INPUTNARI],
                 to: EDITSTATE.INPUTFROM
             },
             {
@@ -223,9 +223,7 @@ export default class AppData {
 
     public edit_inputReset() {
         if(this.jkfEditor.currentNum === (this.jkfEditor.moves.length - 1)) {
-            if(this.editState !== EDITSTATE.INPUTFROM) {
-                this.editStateMachine['inputFrom']()
-            }
+            this.editStateMachine['inputFrom']()
         }else {
             this.editStateMachine['inputReset']()
         }
@@ -240,9 +238,7 @@ export default class AppData {
 
     public deleteMove(deleteNum: number) {
         this.jkfEditor.deleteMove(deleteNum)
-        if(this.state === STATE.EDITMOVE) {
-            this.edit_inputReset()
-        }
+        this.go(deleteNum - 1)
     }
 
     public get state() {
@@ -285,6 +281,10 @@ export default class AppData {
         return this._toY
     }
 
+    // 棋譜の操作
+    public load(jkf) {
+        this.jkfEditor.load(jkf)
+    }
 
 
     // 棋譜の情報

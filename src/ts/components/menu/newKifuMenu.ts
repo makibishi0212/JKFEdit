@@ -2,7 +2,6 @@
 
 import m from 'mithril'
 import c from 'classNames'
-import AppData from '../../appdata'
 import { BAN} from '../../const';
 import Util from '../../util';
 import SingleComponentBasic from '../../singleComponentBasic';
@@ -47,13 +46,13 @@ export default class NewKifuMenu extends SingleComponentBasic {
                                 this.boardType = value
                                 switch(this.boardType) {
                                     case BAN.HIRATE:
-                                        this.appData.jkfEditor.load({header:{}, initial: {preset: 'HIRATE'}, moves: [{}]})
+                                        this.appData.load({header:{}, initial: {preset: 'HIRATE'}, moves: [{}]})
                                         break
                                     case BAN.KOMAOCHI:
-                                        this.appData.jkfEditor.load({header:{}, initial: {preset: 'KY'}, moves: [{}]})
+                                        this.appData.load({header:{}, initial: {preset: 'KY'}, moves: [{}]})
                                         break
                                     case BAN.CUSTOM:
-                                        this.appData.jkfEditor.load({header:{}, initial: {preset: 'HIRATE'}, moves: [{}]})
+                                        this.appData.load({header:{}, initial: {preset: 'HIRATE'}, moves: [{}]})
                                         break
                                 }
                             })
@@ -79,7 +78,7 @@ export default class NewKifuMenu extends SingleComponentBasic {
                                 selected: this.komaochiType,
                                 onchange: m.withAttr('selectedIndex', (value) => {
                                     this.komaochiType = value;        
-                                    this.appData.jkfEditor.load({header:{}, initial: {preset: Util.komaochiName(this.komaochiType)}, moves: [{}]})                                      
+                                    this.appData.load({header:{}, initial: {preset: Util.komaochiName(this.komaochiType)}, moves: [{}]})                                      
                                 })
                             }, [
                                 m('option', '香落ち'),

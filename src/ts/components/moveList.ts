@@ -12,7 +12,14 @@ export default class MoveList extends SingleComponentBasic {
             m('.c-kifu_container', [
                 m('.c-kifu_title', this.appData.title),
                 m('.c-kifu_listContainer', [
-                    m('.c-kifu_list', [
+                    m('.c-kifu_list',{
+                        onupdate: (vnode) => {
+                            const targetHeight: number = (this.appData.currentNum * 24)
+                                
+                            // スクロール位置の調整
+                            vnode.dom.scrollTop = (targetHeight - 480)
+                        }
+                    }, [
                         this.appData.moves.map((move, num) => {
 
                             let isActive = false
