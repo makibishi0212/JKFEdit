@@ -3,7 +3,7 @@
 import m from 'mithril'
 import c from 'classNames'
 import SingleComponentBasic from '../singleComponentBasic'
-import { STATE, KIFUTYPE } from '../const';
+import { STATE, KIFUTYPE, EDITSTATE } from '../const';
 
 export default class MoveList extends SingleComponentBasic {
 
@@ -34,7 +34,10 @@ export default class MoveList extends SingleComponentBasic {
 
                             let dispBranch = false
                             if(this.appData.kifuType === KIFUTYPE.JOSEKI) {
-                                dispBranch = true
+                                // 初期盤面と最後の指し手では分岐指し手アイコンを表示しない
+                                if(num !== 0 && num !== this.appData.moves.length - 1 && (isActive || this.appData.haveFork(num))) {
+                                    dispBranch = true 
+                                }
                             }else {
                                 if(this.appData.haveFork(num)) {
                                     dispBranch = true
@@ -64,8 +67,12 @@ export default class MoveList extends SingleComponentBasic {
                                             m('i.fa.fa-commenting-o')
                                         ]) : null,
                                         (dispBranch) ?
-                                        m('span.c-kifu_notation_branch.icon.is-small', [
-                                            m('i.fa.fa-clone')
+                                        m('span.c-kifu_notation_branch.icon.is-small',{
+                                            onclick: () => {
+                                                this.appData.openFork(num)
+                                            }
+                                        }, [
+                                            m('i.far.fa-clone')
                                         ]) : null,
                                         (dispDelete) ?
                                         m('span.c-kifu_notation_close.icon.is-small',{
@@ -79,7 +86,56 @@ export default class MoveList extends SingleComponentBasic {
                                 ])
                             ])
                         })
-                    ])
+                    ]),
+
+                    // 分岐候補を表示するウインドウ
+                    m('.c-kifu_fork', {class: c(this.appData.isOpenFork ? 'is-active' : null)}, [
+                        m('.c-kifu_select', [
+                            m('.c-kifu_move_info', [
+                                m('.c-kifu_forkTitle', '次の指し手候補'),
+                                m('.c-kifu_notation', [
+                                    m('span', {onclick: () => {this.appData.closeFork()}}, 
+                                        m('i.fa.fa-times.fa-lg')
+                                    )
+                                ])
+                            ])
+                        ]),
+                        this.appData.forks.map((forkMove, forkNum) => {
+                            return m('.c-kifu_row.c-kifu_forkRow', {
+                                class: (this.appData.forkIndex === forkNum) ? 'is-active' : null,
+                                onclick: () => {this.appData.switchFork(forkNum)}
+                            }, m('.c-kifu_move_info', [
+                                m('div', {class: c('c-kifu_number')}, forkNum + ':'),
+                                m('div', {class: c('c-kifu_move')}, forkMove.name)
+                            ]))
+                        }),
+                        m('.c-kifu_row.c-kifu_addRow', {
+                            onclick: () => {
+                                this.appData.addForkMove()
+                            }
+                        }, m('.c-kifu_move_info', [
+                            (this.appData.editState === EDITSTATE.INPUTFROM) ?
+                            [
+                                m('div', {class: c('c-kifu_number')}, 
+                                    m('span.icon.is-small', 
+                                        m('i.fa.fa-exclamation-circle')
+                                    )
+                                ),
+                                m('div.c-kifu_move.c-kifu_move_input', '分岐を入力して下さい')
+                            ]
+                            :
+                            [
+                                m('div', {class: c('c-kifu_number')}, 
+                                    m('span.icon.is-small', 
+                                        m('i.fa.fa-plus')
+                                    )
+                                ),
+                                m('div.c-kifu_move', '分岐を追加')
+                            ]
+                        ]))
+                    ]),
+
+                    m('.c-kifu_blackOut', {class: c(this.appData.isOpenFork ? 'is-active' : null)})
                 ])
             ])
         ]

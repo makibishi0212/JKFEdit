@@ -79,6 +79,12 @@
     cursor: pointer;
 }
 
+.c-kifu_forkTitle {
+    font-weight: bolder;
+    font-size: 13px;
+    padding-left: 8px;
+}
+
 .c-kifu_fork {
     height: 512px;
     width: 150px;
@@ -127,7 +133,7 @@
 
 .c-kifu_blackOut {
     background-color: #000;
-    opacity: 0.4;
+    opacity: 0.75;
     height: 512px;
     width: 150px;
     position: absolute;

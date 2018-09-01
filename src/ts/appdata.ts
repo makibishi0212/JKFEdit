@@ -98,7 +98,7 @@ export default class AppData {
     private _toY: number
     
     // 分岐棋譜ウインドウを開いているかどうか
-    private _openForkWindow: boolean
+    private _isOpenFork: boolean = false
 
     // 棋譜ヘッダ情報ウインドウを開いているかどうか
     private _openInfoWindow: boolean
@@ -196,12 +196,20 @@ export default class AppData {
                     }
                 }else {
                     this.jkfEditor.addBoardMove(this.fromX, this.fromY, this.toX, this.toY)
+                    if(this.isOpenFork) {
+                        this.jkfEditor.switchFork(this.jkfEditor.nextMoves.length - 1)
+                        this.closeFork()
+                    }
                     this.jkfEditor.currentNum++
                     this.editStateMachine['inputFrom']()
                 }
             }else {
                 // 持ち駒から配置する指し手の場合
                 this.jkfEditor.addHandMove(this.fromKind, this.toX, this.toY)
+                if(this.isOpenFork) {
+                    this.jkfEditor.switchFork(this.jkfEditor.nextMoves.length - 1)
+                    this.closeFork()
+                }
                 this.jkfEditor.currentNum++
                 this.editStateMachine['inputFrom']()
             }
@@ -211,21 +219,30 @@ export default class AppData {
     }
 
     public edit_inputNari(promote: boolean) {
-        if(promote) {
-            this.jkfEditor.addBoardMove(this.fromX, this.fromY, this.toX, this.toY, true)
-        }else {
-            this.jkfEditor.addBoardMove(this.fromX, this.fromY, this.toX, this.toY)
+        if(this.editState === EDITSTATE.INPUTNARI) {
+            if(promote) {
+                this.jkfEditor.addBoardMove(this.fromX, this.fromY, this.toX, this.toY, true)
+            }else {
+                this.jkfEditor.addBoardMove(this.fromX, this.fromY, this.toX, this.toY)
+            }
+    
+            this.jkfEditor.currentNum++
+            this.editStateMachine['inputFrom']()
         }
-
-        this.jkfEditor.currentNum++
-        this.editStateMachine['inputFrom']()
     }
 
-    public edit_inputReset() {
-        if(this.jkfEditor.currentNum === (this.jkfEditor.moves.length - 1)) {
+    public edit_inputReset(isFork = false) {
+        if(isFork || this.jkfEditor.currentNum === (this.jkfEditor.moves.length - 1)) {
             this.editStateMachine['inputFrom']()
         }else {
             this.editStateMachine['inputReset']()
+        }
+    }
+
+    public addForkMove() {
+        if(this.editState === EDITSTATE.NOINPUT) {
+            console.log('oh add forkMove')
+            this.edit_inputReset(true)
         }
     }
 
@@ -281,9 +298,17 @@ export default class AppData {
         return this._toY
     }
 
+    public get isOpenFork() {
+        return this._isOpenFork
+    }
+
     // 棋譜の操作
     public load(jkf) {
         this.jkfEditor.load(jkf)
+    }
+
+    public switchFork(forkIndex: number) {
+        this.jkfEditor.switchFork(forkIndex)
     }
 
 
@@ -310,5 +335,22 @@ export default class AppData {
 
     public get moves() {
         return this.jkfEditor.moves
+    }
+
+    public get forks() {
+        return this.jkfEditor.nextMoves
+    }
+
+    public get forkIndex() {
+        return this.jkfEditor.nextSelect
+    }
+
+    // ウインドウ表示状態の切り替え用メソッド
+    public openFork(forkNum: number) {
+        this._isOpenFork = true
+    }
+
+    public closeFork() {
+        this._isOpenFork = false
     }
 }
