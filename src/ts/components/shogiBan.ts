@@ -60,7 +60,7 @@ export default class ShogiBan extends SingleComponentBasic {
                     ])
                 ])
             ]),
-            m('.c-shogiBan_grid', {class: c('is-reverse')}),
+            m('.c-shogiBan_grid', {class: c(this.appData.isReverse ? 'is-reverse' : null)}),
         ]
     }
 
@@ -90,7 +90,7 @@ export default class ShogiBan extends SingleComponentBasic {
     }
 
     private getBoardKomaProp(kind: string, color: number, ax: number, ay: number) {
-        let pos = Util.getKifuPos(ax, ay, this.appData.reverse)
+        let pos = Util.getKifuPos(ax, ay, this.appData.isReverse)
         const komaInfo = {kind: kind, color: color, komaNum: 1, dispType: KOMATYPE.NORMAL, posX: pos.x, posY: pos.y}
 
         if(this.appData.state === STATE.EDITMOVE) {

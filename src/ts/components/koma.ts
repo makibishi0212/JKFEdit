@@ -60,7 +60,7 @@ export default class Koma extends SingleComponentBasic {
                 ]) 
                 : null,
                 (komaNum > 1) ? m('.c-koma_piece_num', komaNum) : null,
-                m('.c-koma_piece', {class: c(kind ? Util.komaClassName(kind, color, false): null)})
+                m('.c-koma_piece', {class: c(kind ? Util.komaClassName(kind, color, this.appData.isReverse): null)})
             ])
         ]
     }

@@ -108,7 +108,7 @@ export default class KifuInfoMenu extends SingleComponentBasic {
                 ]),
                 m('.field.c-shogiBan_menu_button', [
                     m('.control', [
-                        m('.button.is-primary', {
+                        m('button.button.is-primary', {
                             disabled: (this.detail) ? false : true,
                             onclick: () => {
                                 // 指し手入力ステートへ

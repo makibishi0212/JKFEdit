@@ -13,14 +13,16 @@ export default class ToolButton extends SingleComponentBasic {
         const isActive = Util.getAttr(vnode, 'isActive')
         const action = Util.getAttr(vnode, 'action')
         const isSmall = Util.getAttr(vnode, 'isSmall')
+        const color = Util.getAttr(vnode, 'color')
 
         return [
-            m('button.button.is-tooltip-info.tooltip', {
+            m('button.button.is-tooltip-info', {
                 disabled: !isActive,
                 onclick: action,
-                'data-tooltip': title
+                'data-tooltip': title,
+                class: c(color, isActive ? 'tooltip' : null)
             }, [
-                m('span.icon', {}, 
+                m('span.icon', 
                     m('i.fa', {class: iconClass})
                 )
             ])

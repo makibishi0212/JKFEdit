@@ -6,6 +6,7 @@ import ShogiBan from './shogiBan'
 import MoveList from './moveList'
 import ToolBar from './toolBar'
 import EditorMenu from './editorMenu'
+import KifuInfo from './kifuInfo';
 
 export default class JKFEdit implements ComponentBasic {
     private appData: AppData
@@ -13,6 +14,7 @@ export default class JKFEdit implements ComponentBasic {
     private moveList: MoveList
     private toolBar: ToolBar
     private editorMenu: EditorMenu
+    private kifuInfo: KifuInfo
 
     public oninit() {
         this.appData = new AppData()
@@ -20,6 +22,7 @@ export default class JKFEdit implements ComponentBasic {
         this.moveList = MoveList.getInstance(MoveList, this.appData)
         this.toolBar = ToolBar.getInstance(ToolBar, this.appData)
         this.editorMenu = EditorMenu.getInstance(EditorMenu, this.appData)
+        this.kifuInfo = KifuInfo.getInstance(KifuInfo, this.appData)
     }
 
     public view() {
@@ -38,7 +41,7 @@ export default class JKFEdit implements ComponentBasic {
                             m(this.toolBar)
                         ])
                     ]),
-                    
+                    m(this.kifuInfo)
                 ]),
                 m(this.moveList)
             ]),

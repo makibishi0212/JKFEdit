@@ -34,8 +34,8 @@ export default class MoveList extends SingleComponentBasic {
 
                             let dispBranch = false
                             if(this.appData.kifuType === KIFUTYPE.JOSEKI) {
-                                // 初期盤面と最後の指し手では分岐指し手アイコンを表示しない
-                                if(num !== 0 && num !== this.appData.moves.length - 1 && (isActive || this.appData.haveFork(num))) {
+                                // 最後の指し手では分岐指し手アイコンを表示しない
+                                if(num !== this.appData.moves.length - 1 && (isActive || this.appData.haveFork(num))) {
                                     dispBranch = true 
                                 }
                             }else {
@@ -69,7 +69,7 @@ export default class MoveList extends SingleComponentBasic {
                                         (dispBranch) ?
                                         m('span.c-kifu_notation_branch.icon.is-small',{
                                             onclick: () => {
-                                                this.appData.openFork(num)
+                                                this.appData.isOpenFork = true
                                             }
                                         }, [
                                             m('i.far.fa-clone')
@@ -94,19 +94,33 @@ export default class MoveList extends SingleComponentBasic {
                             m('.c-kifu_move_info', [
                                 m('.c-kifu_forkTitle', '次の指し手候補'),
                                 m('.c-kifu_notation', [
-                                    m('span', {onclick: () => {this.appData.closeFork()}}, 
+                                    m('span', {onclick: () => {this.appData.isOpenFork = false}}, 
                                         m('i.fa.fa-times.fa-lg')
                                     )
                                 ])
                             ])
                         ]),
                         this.appData.forks.map((forkMove, forkNum) => {
+                            // 指し手編集モードで、指し手候補を複数持つ場合に、現在選択中の指し手候補以外が削除可能になる
+                            const isDeletable = (this.appData.state === STATE.EDITMOVE && this.appData.forks.length > 1 && forkNum !== this.appData.forkIndex) ? true : false
+
                             return m('.c-kifu_row.c-kifu_forkRow', {
                                 class: (this.appData.forkIndex === forkNum) ? 'is-active' : null,
                                 onclick: () => {this.appData.switchFork(forkNum)}
                             }, m('.c-kifu_move_info', [
                                 m('div', {class: c('c-kifu_number')}, forkNum + ':'),
-                                m('div', {class: c('c-kifu_move')}, forkMove.name)
+                                m('div', {class: c('c-kifu_move')}, forkMove.name),
+                                (isDeletable) ?
+                                m('.c-kifu_notation', [
+                                    m('span.c-kifu_notation_close.icon.is-small', {
+                                        onclick: (e: MouseEvent) => {
+                                            this.appData.deleteFork(forkNum)
+                                            e.stopPropagation()
+                                        }
+                                    }, 
+                                    m('i.fa.fa-times.fa-lg')
+                                    )
+                                ]) : null
                             ]))
                         }),
                         m('.c-kifu_row.c-kifu_addRow', {

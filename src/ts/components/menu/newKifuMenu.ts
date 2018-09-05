@@ -116,14 +116,19 @@ export default class NewKifuMenu extends SingleComponentBasic {
             m('.field.c-shogiBan_menu_button', [
                 m('.control', [
                     (this.boardType === BAN.CUSTOM) ?
-                    m('.button.is-danger', {
+                    m('button.button.is-danger', {
                         disabled: (this.kifuTitle) ? false : true,
+                        onclick: () => {
+                            this.appData.switch_EDITBOARD(this.kifuTitle, this.kifuType)
+                        }
                     }, '盤面入力へ')
                     :
-                    m('.button.is-primary', {
+                    m('button.button.is-primary', {
                         disabled: (this.kifuTitle) ? false : true,
-                        onclick: () => { this.appData.switch_EDITINFO(this.kifuTitle, this.boardType, this.komaochiType, this.kifuType) }
-                    }, '棋譜情報入力へ') 
+                        onclick: () => {
+                            this.appData.switch_EDITINFO(this.kifuTitle, this.boardType, this.komaochiType, this.kifuType) 
+                        }
+                    }, '棋譜情報入力へ')
                 ])
             ])
         ]

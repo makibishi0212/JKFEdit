@@ -1,6 +1,15 @@
 import { KOMAOCHI, PLAYER } from "./const";
 
 export default class Util {
+    public static reverseBoard(board: Array<Array<any>>) {
+        return board
+            .slice()
+            .reverse()
+            .map(boardRow => {
+            return boardRow.slice().reverse()
+        })
+    }
+
     public static komaClassName(kind: string, color: number, reverse: boolean = false):string {
         const PLAYER = {
             SENTE: 0,

@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 //TODO: forcePromoteをappdataで管理させる？
-//TODO: 分岐ウインドウ
-//TODO: 分岐切り替え・分岐削除
+//TODO: 非活性のボタンが押せてしまう件の改修
+//TODO: 最後の指し手のハイライト
 //TODO: 棋譜情報ウインドウ
 //TODO: モードごとのボタン実装
 

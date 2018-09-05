@@ -1,6 +1,6 @@
 import JkfEditor from 'jkfeditor'
 import StateMachine from '@taoqf/javascript-state-machine'
-import { STATE, BAN, KOMAOCHI, EDITSTATE } from "./const"
+import { STATE, BAN, EDITSTATE } from "./const"
 import Util from './util';
 
 export default class AppData {
@@ -42,7 +42,7 @@ export default class AppData {
             }
         ],
         methods: {
-            onEditMove: () => {this._maskArray = this.jkfEditor.getMovables()}
+            onEditMove: () => {this.setMask(this.jkfEditor.getMovables())}
         }
     })
 
@@ -72,20 +72,20 @@ export default class AppData {
             }
         ],
         methods: {
-            onInputFrom: () => {this._maskArray = this.jkfEditor.getMovables()},
+            onInputFrom: () => {this.setMask(this.jkfEditor.getMovables())},
             onInputTo: () => {
                 if(this.fromX !== -1 && this.fromY !== -1) {
                     // 盤上を移動する指し手の場合
-                    this._maskArray = this.jkfEditor.getKomaMoves(this.fromX, this.fromY)
+                    this.setMask(this.jkfEditor.getKomaMoves(this.fromX, this.fromY))
                 }else {
-                    this._maskArray = this.jkfEditor.getPutables(this.fromKind)
+                    this.setMask(this.jkfEditor.getPutables(this.fromKind))
                 }
             }
         }
     })
 
     // 反転状態で表示するかどうか
-    private _reverse: boolean = false
+    private _isReverse: boolean = false
 
     // 指し手入力時の移動駒の座標
     private fromX: number
@@ -101,7 +101,7 @@ export default class AppData {
     private _isOpenFork: boolean = false
 
     // 棋譜ヘッダ情報ウインドウを開いているかどうか
-    private _openInfoWindow: boolean
+    private _isOpenInfo: boolean = false
 
     // 未配置の駒の情報
     private _unsetPieces: Object
@@ -120,6 +120,7 @@ export default class AppData {
 
     // 移動可能なコマなど、将棋盤をマスクするための配列
     private _maskArray: Array<Array<number>> = this.jkfEditor.getMovables()
+    private _reverseMaskArray: Array<Array<number>> = Util.reverseBoard(this._maskArray)
 
     // 棋譜のヘッダー情報
     private _headerInfo: { [index: string]: string; } = {}
@@ -142,6 +143,12 @@ export default class AppData {
         this._headerInfo['title'] = kifuTitle
         this._kifuType = kifuType
         this.stateMachine['editInfo']()
+    }
+
+    public switch_EDITBOARD(kifuTitle: string, kifuType: number) {
+        this._headerInfo['title'] = kifuTitle
+        this._kifuType = kifuType
+        this.stateMachine['editBoard']()
     }
 
     public switch_EDITMOVE(detail: string, propName: string = null, oppoName: string = null, place: string = null) {
@@ -198,7 +205,7 @@ export default class AppData {
                     this.jkfEditor.addBoardMove(this.fromX, this.fromY, this.toX, this.toY)
                     if(this.isOpenFork) {
                         this.jkfEditor.switchFork(this.jkfEditor.nextMoves.length - 1)
-                        this.closeFork()
+                        this.isOpenFork = false
                     }
                     this.jkfEditor.currentNum++
                     this.editStateMachine['inputFrom']()
@@ -208,7 +215,7 @@ export default class AppData {
                 this.jkfEditor.addHandMove(this.fromKind, this.toX, this.toY)
                 if(this.isOpenFork) {
                     this.jkfEditor.switchFork(this.jkfEditor.nextMoves.length - 1)
-                    this.closeFork()
+                    this.isOpenFork = false
                 }
                 this.jkfEditor.currentNum++
                 this.editStateMachine['inputFrom']()
@@ -278,16 +285,32 @@ export default class AppData {
         return (this._headerInfo['title']) ? this._headerInfo['title'] : ''
     }
 
+    public get detail() {
+        return (this._headerInfo['detail']) ? this._headerInfo['detail'] : ''
+    }
+
+    public get proponent_name() {
+        return (this._headerInfo['proponent_name']) ? this._headerInfo['proponent_name'] : ''
+    }
+
+    public get opponent_name() {
+        return (this._headerInfo['opponent_name']) ? this._headerInfo['opponent_name'] : ''
+    }
+
+    public get place() {
+        return (this._headerInfo['place']) ? this._headerInfo['place'] : ''
+    }
+
     public get kifuType() {
         return this._kifuType
     }
 
-    public get reverse(): boolean {
-        return this._reverse
+    public get isReverse(): boolean {
+        return this._isReverse
     }
 
     public get maskArray() {
-        return this._maskArray
+        return this.isReverse ? this._reverseMaskArray : this._maskArray
     }
 
     public get toX() {
@@ -302,13 +325,26 @@ export default class AppData {
         return this._isOpenFork
     }
 
+    public get isOpenInfo() {
+        return this._isOpenInfo
+    }
+
     // 棋譜の操作
     public load(jkf) {
         this.jkfEditor.load(jkf)
     }
 
+    public export() {
+        this.jkfEditor.export()
+    }
+
     public switchFork(forkIndex: number) {
         this.jkfEditor.switchFork(forkIndex)
+        this.isOpenFork = false
+    }
+
+    public deleteFork(forkIndex: number) {
+        this.jkfEditor.deleteFork(forkIndex)
     }
 
 
@@ -318,7 +354,7 @@ export default class AppData {
     }
 
     public get board() {
-        return this.jkfEditor.board
+        return (this.isReverse) ? this.jkfEditor.reverseBoard :  this.jkfEditor.board
     }
 
     public get currentNum() {
@@ -345,12 +381,35 @@ export default class AppData {
         return this.jkfEditor.nextSelect
     }
 
-    // ウインドウ表示状態の切り替え用メソッド
-    public openFork(forkNum: number) {
-        this._isOpenFork = true
+    // ウインドウ表示状態の切り替え用setter
+    public set isOpenFork(isOpen: boolean) {
+        this._isOpenFork = isOpen
     }
 
-    public closeFork() {
-        this._isOpenFork = false
+    public set isOpenInfo(isOpen: boolean) {
+        this._isOpenInfo = isOpen
+    }
+
+    public set isReverse(isReverse: boolean) {
+        this._isReverse = isReverse
+    }
+
+    // 棋譜情報変更用のsetter
+    public set title(title: string) {
+        if(this.state === STATE.EDITMOVE) {
+            this._headerInfo['title'] = title
+        }
+    }
+
+    public set detail(detail: string) {
+        if(this.state === STATE.EDITMOVE) {
+            this._headerInfo['detail'] = detail
+        }
+    }
+
+
+    private setMask(maskArray: Array<Array<number>>) {
+        this._maskArray = maskArray
+        this._reverseMaskArray = Util.reverseBoard(maskArray)
     }
 }
