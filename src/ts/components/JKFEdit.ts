@@ -1,6 +1,6 @@
+
 import ComponentBasic from '../componentBasic'
 import m from 'mithril'
-import c from 'classNames'
 import AppData from '../appdata'
 import ShogiBan from './shogiBan'
 import MoveList from './moveList'

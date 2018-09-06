@@ -63,7 +63,7 @@ export default class ToolBar extends SingleComponentBasic {
                     m(this.toolButton, {
                         title: 'jkfエクスポート',
                         iconClass: c('fa-file-export'),
-                        action: () => { console.log('oh export') },
+                        action: () => { this.appData.export() },
                         isActive:  (this.appData.state === STATE.EDITMOVE || this.appData.state === STATE.VIEW) ? true : false
                     }),
                 ])

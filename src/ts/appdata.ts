@@ -129,6 +129,10 @@ export default class AppData {
         this.stateMachine['newKifu']()
     }
 
+    public switch_LOADKIFU() {
+        this.stateMachine['loadKifu']()
+    }
+
     public switch_EDITINFO(kifuTitle: string, boardType: number, komaochiType: number, kifuType: number) {
         switch(boardType) {
             case BAN.HIRATE:
@@ -165,6 +169,11 @@ export default class AppData {
             moves: [{}]
         }
         this.jkfEditor.load(jkfObj)
+        this.stateMachine['editMove']()
+    }
+
+    public switch_EDITMOVEfromLOADKIFU(jkf: Object) {
+        this.load(jkf)
         this.stateMachine['editMove']()
     }
 
@@ -330,12 +339,16 @@ export default class AppData {
     }
 
     // 棋譜の操作
-    public load(jkf) {
-        this.jkfEditor.load(jkf)
+    public load(jkf: Object) {
+        (!jkf.hasOwnProperty('header')) ? jkf['header'] = this._headerInfo : this._headerInfo = jkf['header']
+        if(!jkf.hasOwnProperty('moves')) jkf['moves'] = []
+        this.jkfEditor.load(jkf as {header: { [index: string]: string; }, moves:Array<any>})
     }
 
     public export() {
-        this.jkfEditor.export()
+        const exportJkf = this.jkfEditor.export()
+        const jsonURI = 'data:application/octet-stream,' + encodeURIComponent(JSON.stringify(exportJkf))
+        this.downloadURI(jsonURI, 'jkf.json')
     }
 
     public switchFork(forkIndex: number) {
@@ -395,21 +408,25 @@ export default class AppData {
     }
 
     // 棋譜情報変更用のsetter
-    public set title(title: string) {
+    public setHeader(key: string, value: string) {
         if(this.state === STATE.EDITMOVE) {
-            this._headerInfo['title'] = title
+            this._headerInfo[key] = value
         }
     }
 
-    public set detail(detail: string) {
-        if(this.state === STATE.EDITMOVE) {
-            this._headerInfo['detail'] = detail
-        }
-    }
-
-
+    // 盤面マスク用の配列を生成する
     private setMask(maskArray: Array<Array<number>>) {
         this._maskArray = maskArray
         this._reverseMaskArray = Util.reverseBoard(maskArray)
+    }
+
+    // 指定したファイルパスをダウンロードする
+    private downloadURI(uri, name) {
+        const link: HTMLAnchorElement = document.createElement('a')
+        link.download = name
+        link.href = uri
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
     }
 }

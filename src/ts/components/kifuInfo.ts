@@ -34,7 +34,7 @@ export default class KifuInfo extends SingleComponentBasic {
                                 readonly: (this.appData.state === STATE.EDITMOVE) ? false : true,
                                 placeholder: '棋譜タイトルを入力',
                                 oninput: m.withAttr('value', (title) => {
-                                    this.appData.title = title
+                                    this.appData.setHeader('title', title)
                                 })
                             })
                         )
@@ -51,6 +51,9 @@ export default class KifuInfo extends SingleComponentBasic {
                                         value: this.appData.proponent_name,
                                         readonly: (this.appData.state === STATE.VIEW) ? true : false,
                                         placeholder: '先手対局者情報なし',
+                                        oninput: m.withAttr('value', (proponent_name) => {
+                                            this.appData.setHeader('proponent_name', proponent_name)
+                                        })
                                     })
                                 )
                             )
@@ -64,6 +67,9 @@ export default class KifuInfo extends SingleComponentBasic {
                                         value: this.appData.opponent_name,
                                         readonly: (this.appData.state === STATE.VIEW) ? true : false,
                                         placeholder: '後手対局者情報なし',
+                                        oninput: m.withAttr('value', (opponent_name) => {
+                                            this.appData.setHeader('opponent_name', opponent_name)
+                                        })
                                     })
                                 )
                             )
@@ -79,6 +85,25 @@ export default class KifuInfo extends SingleComponentBasic {
                                 value: this.appData.place,
                                 readonly: (this.appData.state === STATE.VIEW) ? true : false,
                                 placeholder: '棋戦情報なし',
+                                oninput: m.withAttr('value', (place) => {
+                                    this.appData.setHeader('place', place)
+                                })
+                            })
+                        )
+                    )
+                ]),
+                m('.field.c-shogiBan_menu_option', [
+                    m('label.label.c-shogiBan_menu_label.c-shogiBan_menu_expandOpton', '棋譜詳細'),
+                    m('.field',
+                        m('.control', 
+                            m('textarea.textarea.is-primary', {
+                                value: this.appData.detail,
+                                readonly: (this.appData.state === STATE.VIEW) ? true : false,
+                                placeholder: '棋譜詳細なし',
+                                maxlength: 140,
+                                oninput: m.withAttr('value', (detail) => {
+                                    this.appData.setHeader('detail', detail)
+                                })
                             })
                         )
                     )
