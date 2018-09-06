@@ -24,15 +24,27 @@ export default class ShogiBan extends SingleComponentBasic {
                 m('.c-shogiBan', 
                     this.appData.board.map((boardRow, ay) => {
                         return m('.c-koma_row', boardRow.map((piece, ax) => {
-                            const komaInfo = this.getBoardKomaProp(piece.kind, piece.color, ax, ay)
+                            const komaInfo = this.getBoardKomaProp(piece['kind'], piece['color'], ax, ay)
                             return m(this.koma, komaInfo)
                         }))
                     })
                 ),
 
-                // 持ち駒の描画
+                // 持ち駒の描画(盤面編集時は編集用メニュー)
                 m('.c-shogiBan_hand_place', [
-                    m('.c-shogiBan_hand', {class: c('c-shogiBan_oppo_hand')}, [
+                    m('.c-shogiBan_hand.c-shogiBan_oppo_hand', [
+                        (this.appData.state === STATE.EDITBOARD) ?
+                        [
+                            m('.c-shogiBan_hand_pieces.is-oppoHands', [
+                                m('.c-shogiBan_hand_pieces_inner'),
+                                m('.c-shogiBan_hand_owner', '後手持ち駒')
+                            ]),
+                            m('.c-shogiBan_hand_pieces.is-propHands', [
+                                m('.c-shogiBan_hand_pieces_inner'),
+                                m('.c-shogiBan_hand_owner', '先手持ち駒')
+                            ])
+                        ]
+                        :
                         m('.c-shogiBan_hand_pieces', [
                             this.getHand(PLAYER.GOTE).map((handRow) => {
                                 return  m('div.c-koma_row', [
@@ -46,9 +58,21 @@ export default class ShogiBan extends SingleComponentBasic {
                         m('.c-shogiBan_hand_base')
                     ]),
                     m('.c-shogiBan_hand', {class: c('c-shogiBan_prop_hand')}, [
+                        (this.appData.state === STATE.EDITBOARD) ?
+                        [
+                            m('.c-shogiBan_hand_pieces', [
+                                // ここに配置用の駒を描画
+                            ]),
+                            m('.c-shogiBan_hand_pieces.is-button', 
+                                m('.c-shogiBan_createButton', 
+                                    m('.button.is-primary', '盤面編集完了')
+                                )
+                            ),
+                        ]
+                        :
                         m('.c-shogiBan_hand_pieces', [
                             this.getHand(PLAYER.SENTE).map((handRow) => {
-                                return  m('div.c-koma_row', [
+                                return  m('.c-koma_row', [
                                     Object.keys(handRow).map((kind) => {
                                         const komaInfo = this.getHandKomaProp(kind, PLAYER.SENTE, handRow[kind])
                                         return m(this.koma, komaInfo)

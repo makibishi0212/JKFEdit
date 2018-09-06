@@ -110,7 +110,7 @@ export default class AppData {
     private _createBoard: Array<Array<Object>>
 
     // 新規盤面作成時の手持ち駒情報
-    private _createHands: Array<Object>
+    private _createHands: Object
 
     // 新規作成時の盤面プリセット
     private initBoardPreset: string
@@ -152,6 +152,29 @@ export default class AppData {
     public switch_EDITBOARD(kifuTitle: string, kifuType: number) {
         this._headerInfo['title'] = kifuTitle
         this._kifuType = kifuType
+
+        // 初期盤面を定義
+        this._createBoard = []
+        for (let ky = 0; ky < 9; ky++) {
+            const rowArray = []
+            for (let kx = 0; kx < 9; kx++) {
+                rowArray.push({})
+            }
+            this._createBoard.push(rowArray)
+        }
+
+        // 未配置駒を定義
+        this._createHands = {
+            'FU' : 18,
+            'KY' : 4,
+            'KE' : 4,
+            'GI' : 4,
+            'KI' : 4,
+            'KA' : 2,
+            'HI' : 2,
+            'OU' : 2
+        }
+
         this.stateMachine['editBoard']()
     }
 
@@ -367,7 +390,10 @@ export default class AppData {
     }
 
     public get board() {
-        return (this.isReverse) ? this.jkfEditor.reverseBoard :  this.jkfEditor.board
+        return (this.state === STATE.EDITBOARD) ?
+        this._createBoard
+        :
+        (this.isReverse) ? this.jkfEditor.reverseBoard :  this.jkfEditor.board
     }
 
     public get currentNum() {

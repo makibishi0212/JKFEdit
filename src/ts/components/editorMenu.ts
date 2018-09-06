@@ -24,7 +24,7 @@ export default class EditorMenu extends SingleComponentBasic {
 
     public view() {
         return [
-            (this.appData.state === STATE.TOP || this.appData.state === STATE.NEWKIFU || this.appData.state === STATE.EDITINFO || this.appData.state === STATE.EDITBOARD || this.appData.state === STATE.LOADKIFU) ?
+            (this.appData.state === STATE.TOP || this.appData.state === STATE.NEWKIFU || this.appData.state === STATE.EDITINFO || this.appData.state === STATE.LOADKIFU) ?
             m('.c-shogiBan_menu_place', [
                 m('.c-shogiBan_menu_base', [
                     (this.appData.state === STATE.TOP) ? m(this.topMenu): null,

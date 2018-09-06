@@ -32,8 +32,16 @@ export default class LoadKifuMenu extends SingleComponentBasic {
                     m("label.file-label", [
                         m("input.file-input[name='resume'][type='file']", {
                             onchange: m.withAttr('files', (files) => {
-                                console.log(files)
-                                // TODO: jsonファイルの中身を取得
+                                const file = files[0]
+                                if(file) {
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        const jkf = JSON.parse(e.target.result)
+                                        this.appData.switch_EDITMOVEfromLOADKIFU(jkf)
+                                        m.redraw()
+                                    }
+                                    reader.readAsText(file)
+                                }
                             })
                         }),
                         m("span.file-cta", [
