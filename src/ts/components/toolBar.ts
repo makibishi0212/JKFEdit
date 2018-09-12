@@ -50,7 +50,7 @@ export default class ToolBar extends SingleComponentBasic {
                         title: '先後交代',
                         iconClass: c('fa-exchange-alt', 'fa-rotate-90'),
                         action: () => { this.appData.isReverse = !this.appData.isReverse },
-                        isActive: true,
+                        isActive: (this.appData.state !== STATE.EDITBOARD) ? true : false,
                         color: this.appData.isReverse ? 'is-danger' : null
                     }),
                     m(this.toolButton, {

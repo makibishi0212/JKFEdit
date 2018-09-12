@@ -137,6 +137,57 @@ export default class Util {
         return {x: x, y: y}
     }
 
+    public static getPromote(kind: string) {
+        let promoteKind = kind
+        switch (kind) {
+            case 'FU':
+                promoteKind = 'TO'
+                break
+            case 'KY':
+                promoteKind = 'NY'
+                break
+            case 'KE':
+                promoteKind = 'NK'
+                break
+            case 'GI':
+                promoteKind = 'NG'
+                break
+            case 'KA':
+                promoteKind = 'UM'
+                break
+            case 'HI':
+                promoteKind = 'RY'
+                break
+        }
+        return promoteKind
+    }
+
+    public static getDemote(kind: string) {
+        let promoteKind = kind
+        switch (kind) {
+            case 'TO':
+                promoteKind = 'FU'
+                break
+            case 'NY':
+                promoteKind = 'KY'
+                break
+            case 'NK':
+                promoteKind = 'KE'
+                break
+            case 'NG':
+                promoteKind = 'GI'
+                break
+            case 'UM':
+                promoteKind = 'KA'
+                break
+            case 'RY':
+                promoteKind = 'HI'
+                break
+        }
+        return promoteKind
+    }
+
+    // その駒が成ることができるかどうか
     public static isPromotable(fromY: number, toY: number, owner: number, kind: string) {
         if(!Util.canPromote(kind)) {
             return false
@@ -157,6 +208,33 @@ export default class Util {
         }
 
         return false
+    }
+
+    // その駒が成り駒かどうか
+    public static isPromoted(kind) {
+        let isPromoted = false
+        switch (kind) {
+            case 'TO':
+                isPromoted = true
+                break
+            case 'NY':
+                isPromoted = true
+                break
+            case 'NK':
+                isPromoted = true
+                break
+            case 'NG':
+                isPromoted = true
+                break
+            case 'UM':
+                isPromoted = true
+                break
+            case 'RY':
+                isPromoted = true
+                break
+        }
+
+        return isPromoted
     }
 
     public static oppoPlayer(player: number) {

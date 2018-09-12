@@ -1,7 +1,6 @@
 // 編集用メニューのルートコンポーネント
 
 import m from 'mithril'
-import c from 'classNames'
 import TopMenu from './menu/topMenu'
 import { STATE } from '../const'
 import NewKifuMenu from './menu/newKifuMenu'
@@ -31,7 +30,6 @@ export default class EditorMenu extends SingleComponentBasic {
                     (this.appData.state === STATE.NEWKIFU) ? m(this.newKifuMenu) : null,
                     (this.appData.state === STATE.EDITINFO) ? m(this.kifuInfoMenu) : null,
                     (this.appData.state === STATE.LOADKIFU) ? m(this.loadKifuMenu) : null,
-                    (this.appData.state === STATE.EDITBOARD) ? null : null
                 ])
             ]) : null
         ]

@@ -1,7 +1,7 @@
 import JkfEditor from 'jkfeditor'
 import StateMachine from '@taoqf/javascript-state-machine'
-import { STATE, BAN, EDITSTATE } from "./const"
-import Util from './util';
+import { STATE, BAN, EDITSTATE, CREATESTATE, PLAYER } from "./const"
+import Util from './util'
 
 export default class AppData {
     private jkfEditor: JkfEditor = new JkfEditor()
@@ -42,7 +42,14 @@ export default class AppData {
             }
         ],
         methods: {
-            onEditMove: () => {this.setMask(this.jkfEditor.getMovables())}
+            onEditMove: () => {
+                if(this.jkfEditor.currentNum === (this.jkfEditor.moves.length - 1)) {
+                    this.editStateMachine['inputFrom']()
+                    this.setMask(this.jkfEditor.getMovables())
+                }else {
+                    this.editStateMachine['inputReset']()
+                }
+            }
         }
     })
 
@@ -84,6 +91,34 @@ export default class AppData {
         }
     })
 
+    // 新規盤面作成時のサブステートを定義
+    private createStateMachine = new StateMachine({
+        init: CREATESTATE.INPUTKIND,
+        transitions: [
+            {
+                name: 'inputPos',
+                from: CREATESTATE.INPUTKIND,
+                to: CREATESTATE.INPUTPOS
+            },
+            {
+                name: 'inputKind',
+                from: [CREATESTATE.INPUTKIND, CREATESTATE.INPUTPOS, CREATESTATE.KOMAEDIT],
+                to: CREATESTATE.INPUTKIND
+            },
+            {
+                name: 'komaEdit',
+                from: [CREATESTATE.INPUTKIND, CREATESTATE.INPUTPOS],
+                to: CREATESTATE.KOMAEDIT
+            }
+        ],
+        methods: {
+            onInputPos: () => {
+                // 駒の配置可能箇所をマスクする
+                this.setMask(this.createMask(this._createBoard))
+            }
+        }
+    })
+
     // 反転状態で表示するかどうか
     private _isReverse: boolean = false
 
@@ -110,7 +145,14 @@ export default class AppData {
     private _createBoard: Array<Array<Object>>
 
     // 新規盤面作成時の手持ち駒情報
-    private _createHands: Object
+    private _createHands: Array<Object>
+
+    // 新規盤面作成時の配置対象駒
+    private _setKomaKind: string
+
+    // 新規盤面作成時の状態編集対象の駒の座標
+    private _editX: number
+    private _editY: number
 
     // 新規作成時の盤面プリセット
     private initBoardPreset: string
@@ -164,7 +206,7 @@ export default class AppData {
         }
 
         // 未配置駒を定義
-        this._createHands = {
+        this._unsetPieces = {
             'FU' : 18,
             'KY' : 4,
             'KE' : 4,
@@ -174,6 +216,10 @@ export default class AppData {
             'HI' : 2,
             'OU' : 2
         }
+
+        this._createHands = [{},{}]
+
+        this._setKomaKind = null
 
         this.stateMachine['editBoard']()
     }
@@ -270,7 +316,7 @@ export default class AppData {
         }
     }
 
-    public edit_inputReset(isFork = false) {
+    public edit_inputReset(isFork: boolean = false) {
         if(isFork || this.jkfEditor.currentNum === (this.jkfEditor.moves.length - 1)) {
             this.editStateMachine['inputFrom']()
         }else {
@@ -278,9 +324,38 @@ export default class AppData {
         }
     }
 
+    public create_inputKind(kind: string) {
+        this._setKomaKind = kind
+        this.createStateMachine['inputPos']()
+    }
+
+    public create_inputPos(toX: number, toY: number) {
+
+        // 盤に駒を配置
+        this.setCreateBoard(toX, toY, this.setKomaKind)
+
+        // 配置駒のストックが無くなった場合はINPUTKINDに遷移する
+        if(!this.unsetPieces[this.setKomaKind]) {
+            this.create_inputReset()
+        }
+    }
+
+    public create_komaEdit(posX: number, posY: number) {
+        this._editX = posX
+        this._editY = posY
+        this.createStateMachine['komaEdit']()
+        this._setKomaKind = null
+    }
+
+    public create_inputReset() {
+        this._setKomaKind = null
+        this._editX = null
+        this._editY = null
+        this.createStateMachine['inputKind']()
+    }
+
     public addForkMove() {
         if(this.editState === EDITSTATE.NOINPUT) {
-            console.log('oh add forkMove')
             this.edit_inputReset(true)
         }
     }
@@ -308,6 +383,14 @@ export default class AppData {
     public get editState() {
         if(this.state === STATE.EDITMOVE && typeof this.editStateMachine.state === 'string') {
             return this.editStateMachine.state
+        }else {
+            return 'ERROR'
+        }
+    }
+
+    public get createState() {
+        if(this.state === STATE.EDITBOARD && typeof this.createStateMachine.state === 'string') {
+            return this.createStateMachine.state
         }else {
             return 'ERROR'
         }
@@ -361,6 +444,22 @@ export default class AppData {
         return this._isOpenInfo
     }
 
+    public get unsetPieces() {
+        return this._unsetPieces
+    }
+
+    public get setKomaKind() {
+        return this._setKomaKind
+    }
+
+    public get editX() {
+        return this._editX
+    }
+
+    public get editY() {
+        return this._editY
+    }
+
     // 棋譜の操作
     public load(jkf: Object) {
         (!jkf.hasOwnProperty('header')) ? jkf['header'] = this._headerInfo : this._headerInfo = jkf['header']
@@ -401,7 +500,7 @@ export default class AppData {
     }
 
     public get hands() {
-        return this.jkfEditor.hands
+        return (this.state === STATE.EDITBOARD) ? this._createHands : this.jkfEditor.hands
     }
 
     public get color() {
@@ -454,5 +553,62 @@ export default class AppData {
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
+    }
+
+    // 新規作成用の盤面情報からmaskArrayを作成する
+    private createMask(boardArray: Array<Array<Object>>): Array<Array<number>> {
+        return boardArray.map((boardRow) => {
+            return boardRow.map((boardObj) => {
+                return (boardObj['kind']) ? 1 : 0
+            })
+        })
+    }
+
+    // 新規盤面に駒を配置する
+    private setCreateBoard(posX: number, posY: number, kind: string) {
+        if(this.unsetPieces[kind]) {
+            const ax = 9 - posX
+            const ay = posY - 1
+            if(!this._createBoard[ay][ax]['kind']) {
+                this.unsetPieces[kind]--
+                if(!this.unsetPieces[kind]) {
+                    delete this.unsetPieces[kind]
+                }
+                this._createBoard[ay][ax] = {kind: kind , color: PLAYER.SENTE}
+            }
+        }
+
+        this.setMask(this.createMask(this._createBoard))
+    }
+
+    // 新規盤面上の駒を削除する
+    public unsetCreateBoard(posX: number, posY: number) {
+        const ax = 9 - posX
+        const ay = posY - 1
+        if(this._createBoard[ay][ax]['kind']) {
+            const kind = Util.getDemote(this._createBoard[ay][ax]['kind'])
+            this.unsetPieces[kind] = this.unsetPieces[kind] ? this.unsetPieces[kind] + 1 : 1
+            this._createBoard[ay][ax] = {}
+        }
+
+        this.setMask(this.createMask(this._createBoard))
+    }
+
+    // 新規盤面上の駒の先後を変更する
+    public switchColorCreateBoard(posX: number, posY: number) {
+        const ax = 9 - posX
+        const ay = posY - 1
+        if(this._createBoard[ay][ax]['kind']) {
+            this._createBoard[ay][ax]['color'] = (this._createBoard[ay][ax]['color'] === PLAYER.SENTE) ? PLAYER.GOTE : PLAYER.SENTE
+        }
+    }
+
+    // 新規盤面上の駒の成・不成を変更する
+    public switchNariCreateBoard(posX: number, posY: number) {
+        const ax = 9 - posX
+        const ay = posY - 1
+        if(this._createBoard[ay][ax]['kind']) {
+            this._createBoard[ay][ax]['kind'] = Util.canPromote(this._createBoard[ay][ax]['kind']) ? Util.getPromote(this._createBoard[ay][ax]['kind']) : Util.getDemote(this._createBoard[ay][ax]['kind'])
+        }
     }
 }
