@@ -75,11 +75,24 @@ export default class Koma extends SingleComponentBasic {
                 if(isUnset) {
                     // unsetの場合
                     clickAction = () => {
-                        this.appData.create_inputKind(kind)
+                        if(setTarget) {
+                            this.appData.create_inputReset()
+                        }else {
+                            this.appData.create_inputKind(kind)
+                        }
                     }
                 }else {
                     if(posX === -1 && posY === -1) {
                         // 持ち駒の場合
+                        if(this.appData.createState === CREATESTATE.INPUTKIND) {
+                            colorClass = 'is-blue'
+                            clickAction = () => {
+                                this.appData.removeHandCreateBoard(color, kind)
+                                if(this.appData.hands[kind]) {
+                                    this.appData.create_inputReset()
+                                }
+                            }               
+                        }
                     }else {
                         // 盤上の駒の場合
                         if(this.appData.createState === CREATESTATE.INPUTKIND) {

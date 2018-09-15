@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html -d docs/",
     "start": "parcel src/index.html",
     "format": "prettier --write 'src/**/*.js'",
     "lint": "prettier --list-different 'src/**/*.js'",

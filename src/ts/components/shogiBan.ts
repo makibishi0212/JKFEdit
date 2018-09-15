@@ -4,12 +4,14 @@ import m from 'mithril'
 import c from 'classNames'
 import Koma from './koma'
 import SingleComponentBasic from '../singleComponentBasic'
-import { PLAYER, STATE, KOMATYPE, EDITSTATE, CREATESTATE } from '../const'
+import { PLAYER, STATE, KOMATYPE, EDITSTATE, CREATESTATE, BAN } from '../const'
 import Util from '../util';
 
 export default class ShogiBan extends SingleComponentBasic {
     private koma: Koma
     private handArray: Array<Array<Array<Object>>>
+    private senteHandHover: boolean
+    private goteHandHover: boolean
 
     public oninit() {
         this.koma = Koma.getInstance(Koma, this.appData)
@@ -35,13 +37,71 @@ export default class ShogiBan extends SingleComponentBasic {
                     m('.c-shogiBan_hand.c-shogiBan_oppo_hand', [
                         (this.appData.state === STATE.EDITBOARD) ?
                         [
-                            m('.c-shogiBan_hand_pieces.is-oppoHands', [
-                                m('.c-shogiBan_hand_pieces_inner'),
-                                m('.c-shogiBan_hand_owner', '後手持ち駒')
+                            m('.c-shogiBan_hand_pieces.is-oppoHands',{
+                                class: c((this.goteHandHover) ? 'is-adding' : null),
+                                onclick: () => {
+                                    if(this.appData.createState === CREATESTATE.INPUTPOS) {
+                                        this.appData.addHandCreateBoard(PLAYER.GOTE, this.appData.setKomaKind)
+                                        if(!this.appData.unsetPieces[this.appData.setKomaKind]) {
+                                            this.appData.create_inputReset()
+                                        }
+                                    }
+                                }
+                            }, [
+                                m('.c-shogiBan_hand_pieces_inner', [
+                                    this.getHand(this.appData.hands[PLAYER.GOTE]).map((handRow) => {
+                                        return  m('div.c-koma_row', [
+                                            Object.keys(handRow).map((kind) => {
+                                                const komaInfo = this.getHandKomaProp(kind, PLAYER.GOTE, handRow[kind])
+                                                return m(this.koma, komaInfo)
+                                            })
+                                        ])
+                                    })
+                                ]),
+                                m('.c-shogiBan_hand_owner', {
+                                    onmouseenter: () => {
+                                        // 持ち駒に駒を加えるときのホバー処理
+                                        if(this.appData.setKomaKind) {
+                                            this.goteHandHover = true
+                                        }
+                                    },
+                                    onmouseleave: () => {
+                                        this.goteHandHover = false
+                                    }
+                                }, (this.goteHandHover) ? '初期持ち駒追加' : '後手持ち駒')
                             ]),
-                            m('.c-shogiBan_hand_pieces.is-propHands', [
-                                m('.c-shogiBan_hand_pieces_inner'),
-                                m('.c-shogiBan_hand_owner', '先手持ち駒')
+                            m('.c-shogiBan_hand_pieces.is-propHands',{
+                                class: c((this.senteHandHover) ? 'is-adding' : null),
+                                onclick: () => {
+                                    if(this.appData.createState === CREATESTATE.INPUTPOS) {
+                                        this.appData.addHandCreateBoard(PLAYER.SENTE, this.appData.setKomaKind)
+                                        if(!this.appData.unsetPieces[this.appData.setKomaKind]) {
+                                            this.appData.create_inputReset()
+                                        }
+                                    }
+                                }
+                            }, [
+                                m('.c-shogiBan_hand_pieces_inner', [
+                                    this.getHand(this.appData.hands[PLAYER.SENTE]).map((handRow) => {
+                                        return  m('div.c-koma_row', [
+                                            Object.keys(handRow).map((kind) => {
+                                                const komaInfo = this.getHandKomaProp(kind, PLAYER.SENTE, handRow[kind])
+                                                return m(this.koma, komaInfo)
+                                            })
+                                        ])
+                                    })
+                                ]),
+                                m('.c-shogiBan_hand_owner', {
+                                    onmouseenter: () => {
+                                        // 持ち駒に駒を加えるときのホバー処理
+                                        if(this.appData.setKomaKind) {
+                                            this.senteHandHover = true
+                                        }
+                                    },
+                                    onmouseleave: () => {
+                                        this.senteHandHover = false
+                                    }
+                                }, (this.senteHandHover) ? '初期持ち駒追加' : '先手持ち駒')
                             ])
                         ]
                         :
@@ -72,7 +132,11 @@ export default class ShogiBan extends SingleComponentBasic {
                             ]),
                             m('.c-shogiBan_hand_pieces.is-button', 
                                 m('.c-shogiBan_createButton', 
-                                    m('.button.is-primary', '盤面編集完了')
+                                    m('.button.is-primary', {
+                                        onclick: () => {
+                                            this.appData.switch_EDITINFO(BAN.CUSTOM)
+                                        }
+                                    }, '盤面編集完了')
                                 )
                             ),
                         ]

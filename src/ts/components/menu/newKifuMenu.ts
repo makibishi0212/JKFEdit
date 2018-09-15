@@ -126,7 +126,7 @@ export default class NewKifuMenu extends SingleComponentBasic {
                     m('button.button.is-primary', {
                         disabled: (this.kifuTitle) ? false : true,
                         onclick: () => {
-                            this.appData.switch_EDITINFO(this.kifuTitle, this.boardType, this.komaochiType, this.kifuType) 
+                            this.appData.switch_EDITINFO(this.boardType, this.kifuTitle, this.komaochiType, this.kifuType) 
                         }
                     }, '棋譜情報入力へ')
                 ])

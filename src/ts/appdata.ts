@@ -1,6 +1,6 @@
 import JkfEditor from 'jkfeditor'
 import StateMachine from '@taoqf/javascript-state-machine'
-import { STATE, BAN, EDITSTATE, CREATESTATE, PLAYER } from "./const"
+import { STATE, BAN, EDITSTATE, CREATESTATE, PLAYER, KOMAOCHI } from "./const"
 import Util from './util'
 
 export default class AppData {
@@ -97,7 +97,7 @@ export default class AppData {
         transitions: [
             {
                 name: 'inputPos',
-                from: CREATESTATE.INPUTKIND,
+                from: [CREATESTATE.INPUTKIND, CREATESTATE.INPUTPOS],
                 to: CREATESTATE.INPUTPOS
             },
             {
@@ -145,7 +145,7 @@ export default class AppData {
     private _createBoard: Array<Array<Object>>
 
     // 新規盤面作成時の手持ち駒情報
-    private _createHands: Array<Object>
+    private _createHands: Array<{ [index: string]: number }>
 
     // 新規盤面作成時の配置対象駒
     private _setKomaKind: string
@@ -175,7 +175,7 @@ export default class AppData {
         this.stateMachine['loadKifu']()
     }
 
-    public switch_EDITINFO(kifuTitle: string, boardType: number, komaochiType: number, kifuType: number) {
+    public switch_EDITINFO(boardType: number,kifuTitle: string = null, komaochiType: number = KOMAOCHI.NI, kifuType: number = null) {
         switch(boardType) {
             case BAN.HIRATE:
                 this.initBoardPreset = null
@@ -184,10 +184,11 @@ export default class AppData {
                 this.initBoardPreset = Util.komaochiName(komaochiType)
                 break
             case BAN.CUSTOM:
+                this.initBoardPreset = 'OTHER'
                 break
         }
-        this._headerInfo['title'] = kifuTitle
-        this._kifuType = kifuType
+        if(kifuTitle) this._headerInfo['title'] = kifuTitle
+        if(kifuType) this._kifuType = kifuType
         this.stateMachine['editInfo']()
     }
 
@@ -230,11 +231,21 @@ export default class AppData {
         if(oppoName) this._headerInfo['opponent_name'] = oppoName
         if(place) this._headerInfo['place'] = place
 
+        const initial = {
+            preset: this.initBoardPreset
+        }
+
+        if(this.initBoardPreset === 'OTHER') {
+            initial['data'] = {
+                board: this._createBoard,
+                color: PLAYER.SENTE,
+                hands: this._createHands
+            }
+        }
+
         const jkfObj = {
             header: this._headerInfo, 
-            initial: {
-                preset: this.initBoardPreset
-            }, 
+            initial: initial, 
             moves: [{}]
         }
         this.jkfEditor.load(jkfObj)
@@ -489,7 +500,7 @@ export default class AppData {
     }
 
     public get board() {
-        return (this.state === STATE.EDITBOARD) ?
+        return (this.state === STATE.EDITBOARD || this.state === STATE.EDITINFO && this.initBoardPreset === 'OTHER') ?
         this._createBoard
         :
         (this.isReverse) ? this.jkfEditor.reverseBoard :  this.jkfEditor.board
@@ -609,6 +620,31 @@ export default class AppData {
         const ay = posY - 1
         if(this._createBoard[ay][ax]['kind']) {
             this._createBoard[ay][ax]['kind'] = Util.canPromote(this._createBoard[ay][ax]['kind']) ? Util.getPromote(this._createBoard[ay][ax]['kind']) : Util.getDemote(this._createBoard[ay][ax]['kind'])
+        }
+    }
+
+    // 新規盤面の初期持ち駒を追加する
+    public addHandCreateBoard(player: number, kind: string) {
+
+        if(this.unsetPieces[kind]) {
+            this._createHands[player][kind] = this._createHands[player][kind] ? this._createHands[player][kind] + 1 : 1
+
+            this.unsetPieces[kind]--
+            if(!this.unsetPieces[kind]) {
+                delete this.unsetPieces[kind]
+            }
+        }
+    }
+
+    // 新規盤面の初期持ち駒を削除する
+    public removeHandCreateBoard(player: number, kind: string) {
+        if(this._createHands[player][kind]) {
+            this._createHands[player][kind]--
+            if(!this._createHands[player][kind]) {
+                delete this._createHands[player][kind]
+            }
+
+            this.unsetPieces[kind] = this.unsetPieces[kind] ? this.unsetPieces[kind] + 1 : 1
         }
     }
 }
