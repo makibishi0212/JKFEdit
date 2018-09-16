@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "parcel build src/index.html -d docs/ --public-url /JKFEdit/",
+    "build": "rm -r docs && parcel build src/index.html -d docs/ --public-url /JKFEdit/",
     "start": "parcel src/index.html",
     "format": "prettier --write 'src/**/*.js'",
     "lint": "prettier --list-different 'src/**/*.js'",

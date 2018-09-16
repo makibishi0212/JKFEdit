@@ -455,6 +455,10 @@ export default class AppData {
         return this._isOpenInfo
     }
 
+    public get isKeyActive() {
+        return (this._isOpenInfo) ? false : (this.state === STATE.EDITMOVE) ? true : false
+    }
+
     public get unsetPieces() {
         return this._unsetPieces
     }
