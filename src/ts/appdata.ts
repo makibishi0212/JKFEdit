@@ -1,10 +1,10 @@
 import JkfEditor from 'jkfeditor'
 import StateMachine from '@taoqf/javascript-state-machine'
-import { STATE, BAN, EDITSTATE, CREATESTATE, PLAYER, KOMAOCHI } from "./const"
+import { STATE, BAN, EDITSTATE, CREATESTATE, PLAYER, KOMAOCHI, MODE } from "./const"
 import Util from './util'
 
 export default class AppData {
-    private jkfEditor: JkfEditor = new JkfEditor()
+    private jkfEditor: JkfEditor
 
     // 有限ステートマシンで画面の遷移を定義
     private stateMachine =  new StateMachine({
@@ -161,11 +161,20 @@ export default class AppData {
     private _kifuType: number
 
     // 移動可能なコマなど、将棋盤をマスクするための配列
-    private _maskArray: Array<Array<number>> = this.jkfEditor.getMovables()
-    private _reverseMaskArray: Array<Array<number>> = Util.reverseBoard(this._maskArray)
+    private _maskArray: Array<Array<number>>
+    private _reverseMaskArray: Array<Array<number>>
 
     // 棋譜のヘッダー情報
     private _headerInfo: { [index: string]: string; } = {}
+
+
+    constructor(mode: string, initJkf: Object = {header: {}, moves: []}) {
+        if(mode === MODE.EDIT) {
+            this.jkfEditor = new JkfEditor()
+        }else if(mode === MODE.VIEW) {
+            this.jkfEditor = new JkfEditor(initJkf as {header: { [index: string]: string; }, moves:Array<any>})
+        }
+    }
 
     public switch_NEWKIFU() {
         this.stateMachine['newKifu']()

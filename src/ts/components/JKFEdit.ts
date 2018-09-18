@@ -1,5 +1,5 @@
 
-import ComponentBasic from '../componentBasic'
+import SingleComponentBasic from '../singlecomponentBasic'
 import m from 'mithril'
 import AppData from '../appdata'
 import ShogiBan from './shogiBan'
@@ -7,17 +7,20 @@ import MoveList from './moveList'
 import ToolBar from './toolBar'
 import EditorMenu from './editorMenu'
 import KifuInfo from './kifuInfo';
+import { MODE } from '../const';
 
-export default class JKFEdit implements ComponentBasic {
-    private appData: AppData
+export default class JKFEdit extends SingleComponentBasic {
     private shogiBan: ShogiBan
     private moveList: MoveList
     private toolBar: ToolBar
     private editorMenu: EditorMenu
     private kifuInfo: KifuInfo
 
+    constructor() {
+        super(new AppData(MODE.EDIT))
+    }
+
     public oninit() {
-        this.appData = new AppData()
         this.shogiBan = ShogiBan.getInstance(ShogiBan, this.appData)
         this.moveList = MoveList.getInstance(MoveList, this.appData)
         this.toolBar = ToolBar.getInstance(ToolBar, this.appData)

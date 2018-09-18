@@ -1,3 +1,12 @@
+// エディターのモード
+export const MODE = {
+    // 棋譜を編集するモード
+    EDIT: 'EDIT',
+
+    // 棋譜を閲覧するモード
+    VIEW: 'VIEW'
+}
+
 export const STATE = {
     // トップメニューのステート
     TOP: 'TOP',
