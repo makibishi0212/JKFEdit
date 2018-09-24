@@ -117,3 +117,44 @@ body {
 .container .tile {
     flex-basis: auto;
 }
+
+// css background画像のプリロード
+body::after{
+    position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
+    content:
+    url('../images/koma/Sfu.svg')
+    url('../images/koma/Sto.svg')
+    url('../images/koma/Skyo.svg')
+    url('../images/koma/Snkyo.svg')
+    url('../images/koma/Skei.svg')
+    url('../images/koma/Snkei.svg')
+    url('../images/koma/Sgin.svg')
+    url('../images/koma/Sngin.svg')
+    url('../images/koma/Skin.svg')
+    url('../images/koma/Shi.svg')
+    url('../images/koma/Sryu.svg')
+    url('../images/koma/Skaku.svg')
+    url('../images/koma/Suma.svg')
+    url('../images/koma/Sou.svg')
+    url('../images/koma/Gfu.svg')
+    url('../images/koma/Gto.svg')
+    url('../images/koma/Gkyo.svg')
+    url('../images/koma/Gnkyo.svg')
+    url('../images/koma/Gkei.svg')
+    url('../images/koma/Gnkei.svg')
+    url('../images/koma/Ggin.svg')
+    url('../images/koma/Gngin.svg')
+    url('../images/koma/Gkin.svg')
+    url('../images/koma/Ghi.svg')
+    url('../images/koma/Gryu.svg')
+    url('../images/koma/Gkaku.svg')
+    url('../images/koma/Guma.svg')
+    url('../images/koma/Gou.svg')
+    url('../images/focus/focus_trpt_r.png')
+    url('../images/focus/focus_trpt_g.png')
+    url('../images/focus/focus_trpt_b.png')
+    url('../images/focus/focus_trpt_y.png')
+    url('../images/grid/masu_dot_xy.png')
+    url('../images/ban/ban_kaya_a.jpg')
+    url('../images/ban/ban_kaya_a.jpg');
+}

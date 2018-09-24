@@ -15,7 +15,3 @@ document.addEventListener('DOMContentLoaded', () => {
     "/": jkfedit
   })
 })
-
-//TODO: 最後の指し手のハイライト
-//TODO: 駒コンポーネントをモード別に実装するかアーキテクチャを検討
-//TODO: VIEWモードの実装
