@@ -18,6 +18,19 @@ export default class JKFEdit extends SingleComponentBasic {
 
     constructor() {
         super(new AppData(MODE.EDIT))
+        /*
+        super(new AppData(MODE.VIEW, {
+            "header": {
+              "先手": "makibishi",
+              "後手": "kunai"
+            },
+            "moves": [
+              {"comments":["初期盤面"]},
+              {"move":{"from":{"x":7,"y":7},"to":{"x":7,"y":6},"color":0,"piece":"FU"}},
+              {"move":{"from":{"x":3,"y":3},"to":{"x":3,"y":4},"color":1,"piece":"FU"}}
+            ]
+        }))
+        */
     }
 
     public oninit() {
@@ -46,6 +59,11 @@ export default class JKFEdit extends SingleComponentBasic {
                 :
                 null,
                 onupdate: (vnode) => {
+                    if(this.appData.isKeyActive) {
+                        (vnode.dom as HTMLElement).focus()
+                    }
+                },
+                oncreate: (vnode) => {
                     if(this.appData.isKeyActive) {
                         (vnode.dom as HTMLElement).focus()
                     }

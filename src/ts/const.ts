@@ -74,7 +74,10 @@ export const KOMATYPE = {
     POS: 'POS',
 
     // 新規駒編集時の駒状態変更可能駒
-    EDIT: 'EDIT'
+    EDIT: 'EDIT',
+
+    // 最後に指した手のハイライト
+    LAST: 'LAST'
 }
 
 export const KOMAPLACE = {

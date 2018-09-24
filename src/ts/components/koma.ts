@@ -134,6 +134,8 @@ export default class Koma extends SingleComponentBasic {
             clickAction = () => {
 
             }
+        }else if(dispType === KOMATYPE.LAST) {
+            colorClass = 'is-red'
         }
 
         if(isHoverable) {

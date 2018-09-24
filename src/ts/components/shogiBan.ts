@@ -190,6 +190,10 @@ export default class ShogiBan extends SingleComponentBasic {
         const komaInfo = {kind: kind, color: color, komaNum: 1, dispType: KOMATYPE.NORMAL, posX: pos.x, posY: pos.y}
 
         if(this.appData.state === STATE.EDITMOVE) {
+            if(this.appData.editState === EDITSTATE.NOINPUT && this.appData.lastX === pos.x && this.appData.lastY === pos.y) {
+                komaInfo.dispType = KOMATYPE.LAST
+            }
+
             if(this.appData.maskArray[ay][ax]) {
                 // 各編集ステートで盤面マスクの対象となっているとき
                 if(this.appData.editState === EDITSTATE.INPUTFROM) {
@@ -210,6 +214,10 @@ export default class ShogiBan extends SingleComponentBasic {
                 }
             }else if(!this.appData.maskArray[ay][ax]) {
                 komaInfo.dispType = KOMATYPE.POS
+            }
+        }else if(this.appData.state === STATE.VIEW) {
+            if(this.appData.lastX === pos.x && this.appData.lastY === pos.y) {
+                komaInfo.dispType = KOMATYPE.LAST
             }
         }
 

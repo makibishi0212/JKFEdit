@@ -39,6 +39,11 @@ export default class AppData {
                 name: 'reset',
                 from: [STATE.NEWKIFU, STATE.LOADKIFU, STATE.EDITBOARD, STATE.EDITMOVE],
                 to: STATE.TOP
+            },
+            {
+                name: 'viewKifu',
+                from: STATE.LOADKIFU,
+                to: STATE.VIEW
             }
         ],
         methods: {
@@ -172,7 +177,11 @@ export default class AppData {
         if(mode === MODE.EDIT) {
             this.jkfEditor = new JkfEditor()
         }else if(mode === MODE.VIEW) {
+            // 閲覧モード時はまずSTATE.VIEWに遷移
             this.jkfEditor = new JkfEditor(initJkf as {header: { [index: string]: string; }, moves:Array<any>})
+            this.switch_LOADKIFU()
+            this.load(initJkf)
+            this.switch_VIEW()
         }
     }
 
@@ -264,6 +273,10 @@ export default class AppData {
     public switch_EDITMOVEfromLOADKIFU(jkf: Object) {
         this.load(jkf)
         this.stateMachine['editMove']()
+    }
+
+    public switch_VIEW() {
+        this.stateMachine['viewKifu']()
     }
 
     public edit_inputFrom(fromX: number, fromY: number, kind: string) {
@@ -465,7 +478,7 @@ export default class AppData {
     }
 
     public get isKeyActive() {
-        return (this._isOpenInfo) ? false : (this.state === STATE.EDITMOVE) ? true : false
+        return (this._isOpenInfo) ? false : (this.state === STATE.EDITMOVE || this.state === STATE.VIEW) ? true : false
     }
 
     public get unsetPieces() {
@@ -482,6 +495,24 @@ export default class AppData {
 
     public get editY() {
         return this._editY
+    }
+
+    public get lastX() {
+        let posX = null
+        if(this.jkfEditor.lastMove.to && this.jkfEditor.lastMove.to.hasOwnProperty('x')) {
+            posX = this.jkfEditor.lastMove.to['x']
+        }
+
+        return posX
+    }
+
+    public get lastY() {
+        let posY = null
+        if(this.jkfEditor.lastMove.to && this.jkfEditor.lastMove.to.hasOwnProperty('y')) {
+            posY = this.jkfEditor.lastMove.to['y']
+        }
+
+        return posY
     }
 
     // 棋譜の操作
