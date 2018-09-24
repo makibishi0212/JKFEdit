@@ -4,7 +4,7 @@
 // 将棋盤のマス目画像レイヤー
 .c-shogiBan_grid {
     position: absolute;
-    left: 0;
+    left: 1;
     width: $shogiBan-width;
     height: $shogiBan-height;
     z-index: 100;
@@ -14,6 +14,7 @@
 
 .c-shogiBan_grid.is-reverse {
     transform: rotate(180deg);
+    left: 0;
 }
 
 // 将棋盤の最背面レイヤー
