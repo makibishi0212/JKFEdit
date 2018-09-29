@@ -15,10 +15,10 @@ export default class EditorMenu extends SingleComponentBasic {
     private loadKifuMenu: LoadKifuMenu
 
     public oninit() {
-        this.topMenu = TopMenu.getInstance(TopMenu, this.appData)
-        this.newKifuMenu = NewKifuMenu.getInstance(NewKifuMenu, this.appData)
-        this.kifuInfoMenu = KifuInfoMenu.getInstance(KifuInfoMenu, this.appData)
-        this.loadKifuMenu = LoadKifuMenu.getInstance(LoadKifuMenu, this.appData)
+        this.topMenu = TopMenu.getInstance(TopMenu)
+        this.newKifuMenu = NewKifuMenu.getInstance(NewKifuMenu)
+        this.kifuInfoMenu = KifuInfoMenu.getInstance(KifuInfoMenu)
+        this.loadKifuMenu = LoadKifuMenu.getInstance(LoadKifuMenu)
     }
 
     public view() {

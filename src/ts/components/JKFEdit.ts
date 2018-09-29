@@ -1,13 +1,11 @@
 
 import SingleComponentBasic from '../singlecomponentBasic'
 import m from 'mithril'
-import AppData from '../appdata'
 import ShogiBan from './shogiBan'
 import MoveList from './moveList'
 import ToolBar from './toolBar'
 import EditorMenu from './editorMenu'
-import KifuInfo from './kifuInfo';
-import { MODE } from '../const';
+import KifuInfo from './kifuInfo'
 
 export default class JKFEdit extends SingleComponentBasic {
     private shogiBan: ShogiBan
@@ -16,29 +14,12 @@ export default class JKFEdit extends SingleComponentBasic {
     private editorMenu: EditorMenu
     private kifuInfo: KifuInfo
 
-    constructor() {
-        super(new AppData(MODE.EDIT))
-        /*
-        super(new AppData(MODE.VIEW, {
-            "header": {
-              "先手": "makibishi",
-              "後手": "kunai"
-            },
-            "moves": [
-              {"comments":["初期盤面"]},
-              {"move":{"from":{"x":7,"y":7},"to":{"x":7,"y":6},"color":0,"piece":"FU"}},
-              {"move":{"from":{"x":3,"y":3},"to":{"x":3,"y":4},"color":1,"piece":"FU"}}
-            ]
-        }))
-        */
-    }
-
     public oninit() {
-        this.shogiBan = ShogiBan.getInstance(ShogiBan, this.appData)
-        this.moveList = MoveList.getInstance(MoveList, this.appData)
-        this.toolBar = ToolBar.getInstance(ToolBar, this.appData)
-        this.editorMenu = EditorMenu.getInstance(EditorMenu, this.appData)
-        this.kifuInfo = KifuInfo.getInstance(KifuInfo, this.appData)
+        this.shogiBan = ShogiBan.getInstance(ShogiBan)
+        this.moveList = MoveList.getInstance(MoveList)
+        this.toolBar = ToolBar.getInstance(ToolBar)
+        this.editorMenu = EditorMenu.getInstance(EditorMenu)
+        this.kifuInfo = KifuInfo.getInstance(KifuInfo)
     }
 
     public view() {

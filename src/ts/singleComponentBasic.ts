@@ -5,16 +5,14 @@ export default class SingleComponentBasic implements ComponentBasic {
     public appData: AppData
     private static _instance:any
 
-    constructor(appdata: AppData) {
-        this.appData = appdata
+    constructor() {
+        this.appData = AppData.getInstance()
     }
 
 
-    public static getInstance<T extends SingleComponentBasic>(c: {new(appdata): T; }, appData) : T{
+    public static getInstance<T extends SingleComponentBasic>(c: {new(): T; }) : T{
         if (this._instance == null){
-            this._instance = new c(appData)
-        }else {
-            this._instance.appdata = appData
+            this._instance = new c()
         }
         return this._instance;
     }

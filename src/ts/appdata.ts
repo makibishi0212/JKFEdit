@@ -174,15 +174,7 @@ export default class AppData {
 
 
     constructor(mode: string, initJkf: Object = {header: {}, moves: []}) {
-        if(mode === MODE.EDIT) {
-            this.jkfEditor = new JkfEditor()
-        }else if(mode === MODE.VIEW) {
-            // 閲覧モード時はまずSTATE.VIEWに遷移
-            this.jkfEditor = new JkfEditor(initJkf as {header: { [index: string]: string; }, moves:Array<any>})
-            this.switch_LOADKIFU()
-            this.load(initJkf)
-            this.switch_VIEW()
-        }
+        this.init(mode, initJkf)
     }
 
     public switch_NEWKIFU() {
@@ -689,6 +681,27 @@ export default class AppData {
             }
 
             this.unsetPieces[kind] = this.unsetPieces[kind] ? this.unsetPieces[kind] + 1 : 1
+        }
+    }
+
+    private static _instance:AppData
+
+    public static getInstance(): AppData {
+        if (this._instance == null){
+            this._instance = new AppData(MODE.EDIT)
+        }
+        return this._instance
+    }
+
+    public init(mode: string, initJkf: Object = {header: {}, moves: []}) {
+        if(mode === MODE.EDIT) {
+            this.jkfEditor = new JkfEditor()
+        }else if(mode === MODE.VIEW) {
+            // 閲覧モード時はまずSTATE.VIEWに遷移
+            this.jkfEditor = new JkfEditor(initJkf as {header: { [index: string]: string; }, moves:Array<any>})
+            this.switch_LOADKIFU()
+            this.load(initJkf)
+            this.switch_VIEW()
         }
     }
 }
