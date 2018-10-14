@@ -14,7 +14,7 @@ export default class ShogiBan extends SingleComponentBasic {
     private goteHandHover: boolean
 
     public oninit() {
-        this.koma = Koma.getInstance(Koma, this.appData)
+        this.koma = Koma.getInstance(Koma)
         this.handArray = []
         this.handArray[PLAYER.SENTE] = [[]]
     }

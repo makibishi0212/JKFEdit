@@ -172,6 +172,8 @@ export default class AppData {
     // 棋譜のヘッダー情報
     private _headerInfo: { [index: string]: string; } = {}
 
+    // アプリの使用モード VIEW/EDIT
+    private _mode: string
 
     constructor(mode: string, initJkf: Object = {header: {}, moves: []}) {
         this.init(mode, initJkf)
@@ -397,6 +399,24 @@ export default class AppData {
         this.go(deleteNum - 1)
     }
 
+    public setComment(comment: string) {
+        this.setCommentActive()
+        this.jkfEditor.resetComment()
+        this.jkfEditor.addComment(comment)
+    }
+
+    private _isCommentActive: boolean = false
+    private _commentInactiveTimerID: number = null
+
+    // コメントの編集可能状態にする
+    public setCommentActive() {
+        this._isCommentActive = true
+        if(this._commentInactiveTimerID) clearTimeout(this._commentInactiveTimerID)
+        this._commentInactiveTimerID = setTimeout(() => {
+            this._isCommentActive = false
+        })
+    }
+
     public get state() {
         if(typeof this.stateMachine.state === 'string') {
             return this.stateMachine.state
@@ -470,7 +490,7 @@ export default class AppData {
     }
 
     public get isKeyActive() {
-        return (this._isOpenInfo) ? false : (this.state === STATE.EDITMOVE || this.state === STATE.VIEW) ? true : false
+        return (this._isOpenInfo || this._isCommentActive) ? false : (this.state === STATE.EDITMOVE || this.state === STATE.VIEW) ? true : false
     }
 
     public get unsetPieces() {
@@ -505,6 +525,14 @@ export default class AppData {
         }
 
         return posY
+    }
+
+    public get comment() {
+        return (this.jkfEditor.comment && this.jkfEditor.comment.length) ? this.jkfEditor.comment[0] : ''
+    }
+
+    public get mode() {
+        return this._mode
     }
 
     // 棋譜の操作
@@ -694,6 +722,7 @@ export default class AppData {
     }
 
     public init(mode: string, initJkf: Object = {header: {}, moves: []}) {
+        this._mode = mode
         if(mode === MODE.EDIT) {
             this.jkfEditor = new JkfEditor()
         }else if(mode === MODE.VIEW) {

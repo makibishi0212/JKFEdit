@@ -4,19 +4,22 @@ import m from 'mithril'
 import c from 'classNames'
 import SingleComponentBasic from '../singleComponentBasic'
 import ToolButton from './toolButton'
-import { STATE } from '../const';
+import { STATE } from '../const'
+import KifuComment from './kifuComment'
 
 export default class ToolBar extends SingleComponentBasic {
     private toolButton: ToolButton
+    private kifuComment: KifuComment
 
     public oninit() {
-        this.toolButton = ToolButton.getInstance(ToolButton, this.appData)
+        this.toolButton = ToolButton.getInstance(ToolButton)
+        this.kifuComment = KifuComment.getInstance(KifuComment)
     }
 
     public view() {
 
         return [
-            m('.c-tool_comment', '初期盤面新規作成'),
+            m(this.kifuComment),
             m('.c-tool_button', [
                 // 一段目のツールボタンはどのステートでも表示する
                 m('.c-tool_button_container', [
