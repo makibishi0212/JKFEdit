@@ -18,7 +18,7 @@ export default class LoadKifuMenu extends SingleComponentBasic {
                     if(file) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            const jkf = JSON.parse(e.target.result)
+                            const jkf = JSON.parse(reader.result as string)
                             this.appData.switch_EDITMOVEfromLOADKIFU(jkf)
                             m.redraw()
                         }
